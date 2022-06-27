@@ -1,6 +1,7 @@
 import { Box, makeStyles, Paper, Typography, useTheme } from "@mui/material";
 import React from "react";
-import "@fontsource/ubuntu";
+import { PRIMARY_FONT } from "../../theme/fonts";
+
 import {
   PRIMARY1_COLOR,
   PRIMARY2_COLOR,
@@ -52,7 +53,7 @@ function NoPage() {
             variant="h1"
             sx={{
               textAlign: "center",
-              fontFamily: "Ubuntu",
+              fontFamily: PRIMARY_FONT,
               fontSize: 180,
               fontWeight: 700,
               background:
@@ -71,7 +72,7 @@ function NoPage() {
             variant="h3"
             sx={{
               textAlign: "center",
-              fontFamily: "Ubuntu",
+              fontFamily: PRIMARY_FONT,
               fontSize: 50,
               fontWeight: 700,
               color: SECONDARY_COLOR,
