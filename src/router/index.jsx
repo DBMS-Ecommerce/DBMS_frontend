@@ -7,6 +7,7 @@ import LoginPage from "../pages/LoginPage";
 import HomePage from "../pages/HomePage";
 import ViewItemPage from "../pages/ViewItemPage";
 import AddCategoryPage from "../pages/owner/AddCategoryPage";
+import AddSubCategoryPage from "../pages/owner/AddSubCategoryPage";
 import NoPage from "../pages/NoPage";
 
 export default function Router() {
@@ -23,6 +24,7 @@ export default function Router() {
 
           <Route path="/owner">
             <Route path="addCategory" element={<AddCategoryPage />} />
+            <Route path="addSubCategory" element={<AddSubCategoryPage />} />
             <Route path="*" element={<NoPage />} />
           </Route>
         </Routes>
