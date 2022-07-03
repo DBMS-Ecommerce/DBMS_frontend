@@ -37,12 +37,6 @@ const BootstrapInput = styled(InputBase)(({ theme }) => ({
 }));
 
 function TitleSelect(props) {
-  React.useEffect(() => {
-    props.list.forEach((element) => {
-      console.log(element);
-    });
-  });
-
   const menu = [];
 
   props.list.forEach((element) => {
@@ -59,8 +53,10 @@ function TitleSelect(props) {
       id="demo-simple-select"
       value={props.value}
       label={props.label}
+      name={props.name}
       onChange={props.onChange}
       input={<BootstrapInput />}
+      required
       sx={{
         marginBottom: 3,
         width: 500,

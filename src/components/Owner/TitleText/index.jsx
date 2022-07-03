@@ -4,16 +4,15 @@ import { PRIMARY1_COLOR, PRIMARY2_COLOR } from "../../../theme/colors";
 import { PRIMARY_FONT } from "../../../theme/fonts";
 
 function TitleText(props) {
-  React.useEffect(() => {
-    console.log(props.value);
-  });
   return (
     <TextField
       id="outlined-basic"
       label={props.label}
+      name={props.name}
       variant="outlined"
       value={props.value}
       onChange={props.onChange}
+      required
       sx={{
         marginBottom: 3,
         width: 500,

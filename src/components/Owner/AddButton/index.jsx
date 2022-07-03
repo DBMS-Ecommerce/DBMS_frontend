@@ -7,10 +7,12 @@ import {
 } from "../../../theme/colors";
 import { PRIMARY_FONT } from "../../../theme/fonts";
 
-function AddButton() {
+function AddButton(props) {
   return (
     <Button
       variant="contained"
+      type="submit"
+      disabled={props.disabled}
       sx={{
         width: 100,
         borderRadius: 45,
