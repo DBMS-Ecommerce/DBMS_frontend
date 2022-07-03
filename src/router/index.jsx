@@ -9,6 +9,7 @@ import ViewItemPage from "../pages/ViewItemPage";
 import AddCategoryPage from "../pages/owner/AddCategoryPage";
 import AddSubCategoryPage from "../pages/owner/AddSubCategoryPage";
 import NoPage from "../pages/NoPage";
+import AddProduct from "../pages/owner/AddProductPage";
 
 export default function Router() {
   return (
@@ -25,6 +26,7 @@ export default function Router() {
           <Route path="/owner">
             <Route path="addCategory" element={<AddCategoryPage />} />
             <Route path="addSubCategory" element={<AddSubCategoryPage />} />
+            <Route path="addProduct" element={<AddProduct />} />
             <Route path="*" element={<NoPage />} />
           </Route>
         </Routes>
