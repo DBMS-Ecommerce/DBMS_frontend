@@ -17,79 +17,103 @@ import { Formik } from "formik";
 import TitleText from "../../../components/Owner/TitleText";
 
 function AddSubCategory() {
-  const [categoryTitle, setCategoryTitle] = React.useState("");
-  const [subCategoryTitle, setSubCategoryTitle] = React.useState("");
-
-  React.useEffect(() => {
-    console.log("title: " + categoryTitle);
-    console.log("subtitle: " + subCategoryTitle);
-  });
-
-  const handleCategoryTitle = (event) => {
-    setCategoryTitle(event.target.value);
-  };
-
-  const handleSubCategoryTitle = (event) => {
-    setSubCategoryTitle(event.target.value);
-  };
-
   const categoryList = ["Category 1", "Category 2", "Category 3"];
 
   return (
-    <Box
-      sx={{
-        display: "flex",
-        flexDirection: "column",
-        justifyContent: "center",
-        width: "100%",
-        height: "100%",
+    <Formik
+      initialValues={{ categoryTitle: "", subCategoryTitle: "" }}
+      validate={(values) => {
+        const errors = {};
+        if (!values.categoryTitle) {
+          errors.categoryTitle = "Required";
+        }
+        if (!values.subCategoryTitle) {
+          errors.subCategoryTitle = "Required";
+        }
+        return errors;
+      }}
+      onSubmit={(values, { setSubmitting }) => {
+        setTimeout(() => {
+          alert(JSON.stringify(values, null, 2));
+          setSubmitting(false);
+        }, 400);
       }}
     >
-      <Box
-        sx={{
-          display: "flex",
-          flexDirection: "row",
-          justifyContent: "center",
-          width: "100%",
-          height: "100%",
-          position: "absolute",
-          top: "15%",
-        }}
-      >
-        <FormGroup>
-          <FormControl fullWidth>
-            <InputLabel id="demo-simple-select-label">
-              Category Title
-            </InputLabel>
-            <TitleSelect
-              value={categoryTitle}
-              label="Category Title"
-              onChange={handleCategoryTitle}
-              list={categoryList}
+      {({
+        values,
+        errors,
+        touched,
+        handleChange,
+        handleBlur,
+        handleSubmit,
+        isSubmitting,
+        /* and other goodies */
+      }) => (
+        <form onSubmit={handleSubmit}>
+          <Box
+            sx={{
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "center",
+              width: "100%",
+              height: "100%",
+            }}
+          >
+            <Box
+              sx={{
+                display: "flex",
+                flexDirection: "row",
+                justifyContent: "center",
+                width: "100%",
+                height: "100%",
+                position: "absolute",
+                top: "15%",
+              }}
+            >
+              <FormGroup>
+                <FormControl fullWidth>
+                  <InputLabel id="demo-simple-select-label">
+                    Category Title
+                  </InputLabel>
+                  <TitleSelect
+                    name="categoryTitle"
+                    value={values.categoryTitle}
+                    label="Category Title"
+                    onChange={handleChange}
+                    list={categoryList}
+                  />
+                  {/* {errors.categoryTitle &&
+                    touched.categoryTitle &&
+                    errors.categoryTitle} */}
+                </FormControl>
+
+                <TitleText
+                  label="Sub Category Title"
+                  name="subCategoryTitle"
+                  onChange={handleChange}
+                  value={values.subCategoryTitle}
+                />
+                {/* {errors.subCategoryTitle &&
+                  touched.subCategoryTitle &&
+                  errors.subCategoryTitle} */}
+
+                <AddButton disabled={isSubmitting} />
+              </FormGroup>
+            </Box>
+            <img
+              src={bg_category}
+              style={{
+                width: 496,
+                height: 325,
+                position: "absolute",
+                bottom: "3%",
+                left: "20%",
+              }}
             />
-          </FormControl>
-
-          <TitleText
-            label="Sub Category Title"
-            onChange={handleSubCategoryTitle}
-            value={subCategoryTitle}
-            required
-          />
-
-          <AddButton />
-        </FormGroup>
-      </Box>
-      <img
-        src={bg_category}
-        style={{
-          width: 496,
-          height: 325,
-          position: "absolute",
-          bottom: "3%",
-          left: "20%",
-        }}
-      />
-    </Box>
+          </Box>
+        </form>
+      )}
+    </Formik>
   );
 }
 

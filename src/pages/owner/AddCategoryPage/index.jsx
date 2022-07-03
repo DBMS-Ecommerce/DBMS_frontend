@@ -7,80 +7,93 @@ import AddButton from "../../../components/Owner/AddButton";
 import { Formik } from "formik";
 
 function AddCategory() {
-  const [categoryTitle, setCategoryTitle] = React.useState("");
-  const [subCategoryCheck, setSubCategoryCheck] = React.useState(false);
-
-  React.useEffect(() => {
-    console.log("title: " + categoryTitle);
-    console.log("checked: " + subCategoryCheck);
-  });
-
-  const handleCategoryTitle = (event) => {
-    setCategoryTitle(event.target.value);
-  };
-
-  const handleSubCategoryCheck = (event) => {
-    setSubCategoryCheck(event.target.checked);
-  };
-
   return (
-    <Box
-      sx={{
-        display: "flex",
-        flexDirection: "column",
-        justifyContent: "center",
-        width: "100%",
-        height: "100%",
+    <Formik
+      initialValues={{ categoryTitle: "", subCategoryCheck: false }}
+      validate={(values) => {
+        const errors = {};
+        if (!values.categoryTitle) {
+          errors.categoryTitle = "Required";
+        }
+
+        return errors;
+      }}
+      onSubmit={(values, { setSubmitting }) => {
+        setTimeout(() => {
+          alert(JSON.stringify(values, null, 2));
+          setSubmitting(false);
+        }, 400);
       }}
     >
-      <Box
-        sx={{
-          display: "flex",
-          flexDirection: "row",
-          justifyContent: "center",
-          width: "100%",
-          height: "100%",
-          position: "absolute",
-          top: "15%",
-        }}
-      >
-        <FormGroup>
-          <TitleText
-            label="Category Title"
-            onChange={handleCategoryTitle}
-            value={categoryTitle}
-            required
-          />
-          <FormControlLabel
-            control={
-              <Checkbox
-                checked={subCategoryCheck}
-                onChange={handleSubCategoryCheck}
-                sx={{
-                  color: PRIMARY1_COLOR,
-                  // "&.Mui-checked": {
-                  //   color: PRIMARY1_COLOR,
-                  // },
-                }}
-              />
-            }
-            label="Sub Categories"
-          />
+      {({
+        values,
+        errors,
+        touched,
+        handleChange,
+        handleBlur,
+        handleSubmit,
+        isSubmitting,
+        /* and other goodies */
+      }) => (
+        <form onSubmit={handleSubmit}>
+          <Box
+            sx={{
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "center",
+              width: "100%",
+              height: "100%",
+            }}
+          >
+            <Box
+              sx={{
+                display: "flex",
+                flexDirection: "row",
+                justifyContent: "center",
+                width: "100%",
+                height: "100%",
+                position: "absolute",
+                top: "15%",
+              }}
+            >
+              <FormGroup>
+                <TitleText
+                  label="Category Title"
+                  name="categoryTitle"
+                  onChange={handleChange}
+                  value={values.categoryTitle}
+                />
+                <FormControlLabel
+                  control={
+                    <Checkbox
+                      name="subCategoryCheck"
+                      checked={values.subCategoryCheck}
+                      onChange={handleChange}
+                      sx={{
+                        color: PRIMARY1_COLOR,
+                      }}
+                    />
+                  }
+                  label="Sub Categories"
+                />
 
-          <AddButton />
-        </FormGroup>
-      </Box>
-      <img
-        src={bg_category}
-        style={{
-          width: 496,
-          height: 325,
-          position: "absolute",
-          bottom: "3%",
-          left: "20%",
-        }}
-      />
-    </Box>
+                <AddButton disabled={isSubmitting} />
+              </FormGroup>
+            </Box>
+            <img
+              src={bg_category}
+              style={{
+                width: 496,
+                height: 325,
+                position: "absolute",
+                bottom: "3%",
+                left: "20%",
+              }}
+            />
+          </Box>
+        </form>
+      )}
+    </Formik>
   );
 }
 
