@@ -13,6 +13,7 @@ function TitleText(props) {
       value={props.value}
       onChange={props.onChange}
       required
+      type={props.type}
       sx={{
         marginBottom: 3,
         width: props.width,
