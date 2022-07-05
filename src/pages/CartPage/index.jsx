@@ -8,6 +8,12 @@ import {
   Checkbox,
   Button,
 } from "@mui/material";
+import "@fontsource/ubuntu";
+import {
+  PRIMARY1_COLOR,
+  PRIMARY2_COLOR,
+  SECONDARY_COLOR,
+} from "../../theme/colors";
 import AddNumberInput from "../../components/AddNumberInput";
 import IMAGE from "../../assets/bag.svg";
 import IconButton from "@mui/material/IconButton";
@@ -20,6 +26,19 @@ const CustomButton = styled(Button)({
   background: 'linear-gradient("180deg", "#FF0101", "0%", "#F7941D", "100%")',
   borderRadius: "25px",
 });
+
+const cartItems = [
+  ["backpack", "Black", "450.50", "Free shipping"],
+  ["backpack2", "Black", "450.50", "Free shipping"],
+  ["backpack", "Black", "450.50", "Free shipping"],
+];
+
+const cartObjectList = [
+  { description: "backpack", color: "black", price: "459", shipping: "free" },
+  { description: "backpack", color: "black", price: "459", shipping: "free" },
+  { description: "backpack", color: "black", price: "459", shipping: "free" },
+  { description: "backpack", color: "black", price: "459", shipping: "free" },
+];
 
 export default function Cart() {
   return (
@@ -56,6 +75,30 @@ export default function Cart() {
                 price={"450.50"}
                 shipping={"Free shipping"}
               />
+              <div>
+                {/* {cartItems.map((item) => {
+                  return (
+                    <CartItem
+                      image={IMAGE}
+                      description={item[0]}
+                      color={item[1]}
+                      price={item[2]}
+                      shipping={item[3]}
+                    />
+                  );
+                })} */}
+                {cartObjectList.map((item) => {
+                  return (
+                    <CartItem
+                      image={IMAGE}
+                      description={item.description}
+                      color={item.color}
+                      price={item.price}
+                      shipping={item.shipping}
+                    />
+                  );
+                })}
+              </div>
             </Stack>
           </div>
           <div>
