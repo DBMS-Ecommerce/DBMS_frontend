@@ -10,6 +10,7 @@ import AddCategoryPage from "../pages/owner/AddCategoryPage";
 import AddSubCategoryPage from "../pages/owner/AddSubCategoryPage";
 import NoPage from "../pages/NoPage";
 import AddProduct from "../pages/owner/AddProductPage";
+import AddVariant from "../pages/owner/AddVariantPage";
 
 export default function Router() {
   return (
@@ -27,6 +28,7 @@ export default function Router() {
             <Route path="addCategory" element={<AddCategoryPage />} />
             <Route path="addSubCategory" element={<AddSubCategoryPage />} />
             <Route path="addProduct" element={<AddProduct />} />
+            <Route path="addVariant" element={<AddVariant />} />
             <Route path="*" element={<NoPage />} />
           </Route>
         </Routes>
