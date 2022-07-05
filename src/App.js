@@ -1,13 +1,9 @@
-import logo from "./logo.svg";
-import "./App.css";
-import Button from "@mui/material/Button";
-import Profile from "./pages/ProfilePage";
+import Router from "./router";
+
+import React from "react";
+
 function App() {
-  return (
-    <div className="App">
-      <Profile />
-    </div>
-  );
+  return <Router />;
 }
 
 export default App;

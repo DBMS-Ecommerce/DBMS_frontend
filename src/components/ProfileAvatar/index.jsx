@@ -36,7 +36,7 @@ export default function ProfileAvatar(props) {
   return (
     <div>
       <Avatar
-        style={{ width: 200, height: 200, fontSize: 80 }}
+        style={{ width: 150, height: 150, fontSize: 60 }}
         {...stringAvatar(props.name)}
       />
     </div>

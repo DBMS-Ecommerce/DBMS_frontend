@@ -6,12 +6,13 @@ import Pair from "../../components/Pair";
 import Stack from "@mui/material/Stack";
 import TextField from "@mui/material/TextField";
 import { styled } from "@mui/system";
-
+import { PRIMARY1_COLOR, PRIMARY2_COLOR } from "../../theme/colors";
 // import { useNavigate } from "react-router-dom";
 const CustomTextField = styled(TextField)({
   margin: 10,
   "& .MuiOutlinedInput-root": {
     "& > fieldset": {
+      width: 400,
       borderTopColor: PRIMARY1_COLOR,
       borderBottomColor: PRIMARY2_COLOR,
       borderLeftColor: PRIMARY1_COLOR,
@@ -26,11 +27,17 @@ export default function Profile() {
     <div>
       <LoggedNavigationBar />
       <Stack direction="row" style={{ paddingTop: 50 }}>
-        <Card style={{ paddingLeft: 250, paddingTop: 60 }}>
+        <Card
+          style={{
+            width: 500,
+            textAlign: "center",
+            // display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+          }}
+        >
           <ProfileAvatar name={"Samindra Kumari"} />
           <h1>Samindra Kumari</h1>
-        </Card>
-        <Card style={{}}>
           <Stack direction="column">
             <CustomTextField
               id="outlined-read-only-input"

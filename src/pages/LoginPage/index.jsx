@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import TextField from "@mui/material/TextField";
-import InputBase from '@mui/material/InputBase';
+import InputBase from "@mui/material/InputBase";
 // import { useDispatch } from "react-redux";
 import CircularProgress from "@mui/material/CircularProgress";
 import { Formik } from "formik";
@@ -14,38 +14,36 @@ import HeightBox from "../../components/HeightBox";
 import NavigationBar from "../../components/NavigationBar";
 import SnackBarComponent from "../../components/SnackBarComponent";
 import WOMAN from "../../assets/woman.svg";
-import Radio from '@mui/material/Radio';
-import Checkbox from '@mui/material/Checkbox';
-import { IconButton,InputAdornment } from '@material-ui/core';
+import Radio from "@mui/material/Radio";
+import Checkbox from "@mui/material/Checkbox";
+import { IconButton, InputAdornment } from "@material-ui/core";
 // import InputLabel from "@mui/material/core/InputLabel";
 // import InputAdornment from "@mui/material/core/InputAdornment";
-import {VisibilityOff,Visibility} from "@material-ui/icons";
+import { VisibilityOff, Visibility } from "@material-ui/icons";
 // import Input from "@mui/material/core/Input";
 
 const CustomInputBase = styled(InputBase)({
   width: 600,
-  border:'1.8px solid',
-  borderRadius:24,
-  borderBottomColor:'#F7941D',
-  borderTopColor:'#FF0101',
-  borderLeftColor:'#FF0101',
-  borderRightColor:'#F7941D',
+  border: "1.8px solid",
+  borderRadius: 24,
+  borderBottomColor: "#F7941D",
+  borderTopColor: "#FF0101",
+  borderLeftColor: "#FF0101",
+  borderRightColor: "#F7941D",
   // borderImage:"linear-gradient(180deg, #FF0101 30%, #F7941D 90%)",
   // borderImageSlice:1,
-  
+
   height: 48,
   padding: 22,
-  color:'#C8D3F9',
-  fontSize:17
+  color: "#C8D3F9",
+  fontSize: 17,
 });
 const CustomButton = styled(Button)({
-borderRadius:28,
-height:48,
-width:600,
-background: 'linear-gradient(180deg, #FF0101 30%, #F7941D 90%)'
-
+  borderRadius: 28,
+  height: 48,
+  width: 600,
+  background: "linear-gradient(180deg, #FF0101 30%, #F7941D 90%)",
 });
-
 
 const validationSchema = Yup.object().shape({
   userName: Yup.string().required().label("User Name").min(3).max(36),
@@ -80,13 +78,27 @@ export default function SignIn() {
     message: "",
   });
 
-  
-
   return (
     <div>
-      <NavigationBar/>
-      <img src={WOMAN} alt="" style={{ width: 400,position:'absolute',marginTop:40,paddingLeft: "150px"}} />
-      <div style={{ maxWidth: 2000, marginLeft: "auto", marginRight: "auto" ,letterSpacing:3}}>
+      <NavigationBar />
+      <img
+        src={WOMAN}
+        alt=""
+        style={{
+          width: 400,
+          position: "absolute",
+          marginTop: 40,
+          paddingLeft: "150px",
+        }}
+      />
+      <div
+        style={{
+          maxWidth: 2000,
+          marginLeft: "auto",
+          marginRight: "auto",
+          letterSpacing: 3,
+        }}
+      >
         <SnackBarComponent
           open={openSnackBar}
           setOpen={setOpenSnackBar}
@@ -96,14 +108,15 @@ export default function SignIn() {
         <HeightBox height={30} />
         <Stack direction="row" spacing={15}>
           <div style={{ paddingLeft: "150px", paddingTop: 80 }}>
-            <h2 style={{ fontSize: 34, margin: 0,textAlign:"left" }}>
+            <h2 style={{ fontSize: 34, margin: 0, textAlign: "left" }}>
               WELCOME BACK!
             </h2>
-            <p style={{ color: "rgba(0,0,0,0.5)",textAlign:"left" }}>
-              Don't have an account, 
-            <Link href="/signup" underline="hover" color="rgba(255,1,1)">
-              Sign Up
-            </Link></p>
+            <p style={{ color: "rgba(0,0,0,0.5)", textAlign: "left" }}>
+              Don't have an account,
+              <Link href="/signup" underline="hover" color="rgba(255,1,1)">
+                Sign Up
+              </Link>
+            </p>
             <Stack direction="column" spacing={2}>
               <Formik
                 initialValues={{
@@ -115,7 +128,6 @@ export default function SignIn() {
                     username: values.userName,
                     password: values.password,
                   };
-                  
                 }}
                 validationSchema={validationSchema}
               >
@@ -125,7 +137,7 @@ export default function SignIn() {
 
                   return (
                     <React.Fragment>
-                      <p style={{textAlign: "left"}}>Username</p>
+                      <p style={{ textAlign: "left" }}>Username</p>
                       <CustomInputBase
                         label=""
                         variant="outlined"
@@ -134,7 +146,7 @@ export default function SignIn() {
                         helperText={errors.userName || ""}
                         onChange={(event) => handleChange("userName")(event)}
                       />
-                      <p style={{textAlign:"left"}}>Password</p>
+                      <p style={{ textAlign: "left" }}>Password</p>
                       <CustomInputBase
                         label=""
                         variant="outlined"
@@ -144,17 +156,21 @@ export default function SignIn() {
                         helperText={errors.password || ""}
                         onChange={(event) => handleChange("password")(event)}
                       />
-                      <p style={{textAlign: "left"}}>
-                      <Checkbox
-                        // checked={checked}
-                        onChange={handleChange}
-                        inputProps={{ 'aria-label': 'controlled' }}
-                        style={{color:'rgb(255,1,1)'}}
-                      /> 
-                      Remember me
-                      <Link href="/forgetPassword" underline="hover" color="rgba(255,1,1)">
-                        Forget password?
-                      </Link>
+                      <p style={{ textAlign: "left" }}>
+                        <Checkbox
+                          // checked={checked}
+                          onChange={handleChange}
+                          inputProps={{ "aria-label": "controlled" }}
+                          style={{ color: "rgb(255,1,1)" }}
+                        />
+                        Remember me
+                        <Link
+                          href="/forgetPassword"
+                          underline="hover"
+                          color="rgba(255,1,1)"
+                        >
+                          Forget password?
+                        </Link>
                       </p>
                       <CustomButton
                         type="submit"
@@ -174,12 +190,14 @@ export default function SignIn() {
 
             <HeightBox height={15} />
             <div style={{ fontSize: 15, width: 350 }}>
-              <Stack direction="row" justifyContent="center" spacing={1}>
-              </Stack>
+              <Stack
+                direction="row"
+                justifyContent="center"
+                spacing={1}
+              ></Stack>
             </div>
             <HeightBox height={15} />
           </div>
-          
         </Stack>
       </div>
     </div>
