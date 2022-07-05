@@ -1,21 +1,35 @@
-import { Box, Checkbox, FormControlLabel, FormGroup } from "@mui/material";
+import {
+  Box,
+  Checkbox,
+  FormControl,
+  FormControlLabel,
+  FormGroup,
+  InputLabel,
+  MenuItem,
+  Select,
+} from "@mui/material";
 import React from "react";
 import { PRIMARY1_COLOR } from "../../../theme/colors";
-import TitleText from "../../../components/Owner/TitleText";
+import TitleSelect from "../../../components/Owner/TitleSelect";
 import bg_category from "../../../assets/bg_cat.svg";
 import AddButton from "../../../components/Owner/AddButton";
 import { Formik } from "formik";
+import TitleText from "../../../components/Owner/TitleText";
 
-function AddCategory() {
+function AddSubCategory() {
+  const categoryList = ["Category 1", "Category 2", "Category 3"];
+
   return (
     <Formik
-      initialValues={{ categoryTitle: "", subCategoryCheck: false }}
+      initialValues={{ categoryTitle: "", subCategoryTitle: "" }}
       validate={(values) => {
         const errors = {};
         if (!values.categoryTitle) {
           errors.categoryTitle = "Required";
         }
-
+        if (!values.subCategoryTitle) {
+          errors.subCategoryTitle = "Required";
+        }
         return errors;
       }}
       onSubmit={(values, { setSubmitting }) => {
@@ -57,25 +71,31 @@ function AddCategory() {
               }}
             >
               <FormGroup>
+                <FormControl fullWidth>
+                  <InputLabel id="demo-simple-select-label">
+                    Category Title
+                  </InputLabel>
+                  <TitleSelect
+                    name="categoryTitle"
+                    value={values.categoryTitle}
+                    label="Category Title"
+                    onChange={handleChange}
+                    list={categoryList}
+                  />
+                  {/* {errors.categoryTitle &&
+                    touched.categoryTitle &&
+                    errors.categoryTitle} */}
+                </FormControl>
+
                 <TitleText
-                  label="Category Title"
-                  name="categoryTitle"
+                  label="Sub Category Title"
+                  name="subCategoryTitle"
                   onChange={handleChange}
-                  value={values.categoryTitle}
+                  value={values.subCategoryTitle}
                 />
-                <FormControlLabel
-                  control={
-                    <Checkbox
-                      name="subCategoryCheck"
-                      checked={values.subCategoryCheck}
-                      onChange={handleChange}
-                      sx={{
-                        color: PRIMARY1_COLOR,
-                      }}
-                    />
-                  }
-                  label="Sub Categories"
-                />
+                {/* {errors.subCategoryTitle &&
+                  touched.subCategoryTitle &&
+                  errors.subCategoryTitle} */}
 
                 <AddButton disabled={isSubmitting} />
               </FormGroup>
@@ -97,4 +117,4 @@ function AddCategory() {
   );
 }
 
-export default AddCategory;
+export default AddSubCategory;
