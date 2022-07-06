@@ -1,54 +1,40 @@
 import React from "react";
-// import GIRL from "../../assets/girl.svg";
-import Box from "@mui/material/Box";
-import List from "@mui/material/List";
-import ListItemButton from "@mui/material/ListItemButton";
-import ListItemIcon from "@mui/material/ListItemIcon";
-import ListItemText from "@mui/material/ListItemText";
-import Divider from "@mui/material/Divider";
-import WomanIcon from "@mui/icons-material/Woman";
-import ManIcon from "@mui/icons-material/Man";
-import PhoneIphoneIcon from "@mui/icons-material/PhoneIphone";
-import ComputerIcon from "@mui/icons-material/Computer";
-import DiamondIcon from "@mui/icons-material/Diamond";
-import CameraAltIcon from "@mui/icons-material/CameraAlt";
-import ShoppingBagIcon from "@mui/icons-material/ShoppingBag";
-import ToysIcon from "@mui/icons-material/Toys";
-import SportsCricketIcon from "@mui/icons-material/SportsCricket";
-import HealingIcon from "@mui/icons-material/Healing";
-import SettingsOutlinedIcon from "@mui/icons-material/SettingsOutlined";
-import Card from "@mui/material/Card";
+import Box from '@mui/material/Box';
+import List from '@mui/material/List';
+import ListItemButton from '@mui/material/ListItemButton';
+import ListItemIcon from '@mui/material/ListItemIcon';
+import ListItemText from '@mui/material/ListItemText';
+import Divider from '@mui/material/Divider';
+import WomanIcon from '@mui/icons-material/Woman';
+import ManIcon from '@mui/icons-material/Man';
+import PhoneIphoneIcon from '@mui/icons-material/PhoneIphone';
+import ComputerIcon from '@mui/icons-material/Computer';
+import DiamondIcon from '@mui/icons-material/Diamond';
+import CameraAltIcon from '@mui/icons-material/CameraAlt';
+import ShoppingBagIcon from '@mui/icons-material/ShoppingBag';
+import ToysIcon from '@mui/icons-material/Toys';
+import SportsCricketIcon from '@mui/icons-material/SportsCricket';
+import HealingIcon from '@mui/icons-material/Healing';
+import SettingsOutlinedIcon from '@mui/icons-material/SettingsOutlined';
+import Card from '@mui/material/Card';
 import { styled } from "@mui/system";
 
 const CustomListItemButton = styled(ListItemButton)({
-  height: 34,
-});
+    height:34,
+    });
 export default function CategoryList() {
-  const [selectedIndex, setSelectedIndex] = React.useState(1);
+    const [selectedIndex, setSelectedIndex] = React.useState(1);
 
-  const handleListItemClick = (
-    event: React.MouseEvent<HTMLDivElement, MouseEvent>,
-    index: number
-  ) => {
-    setSelectedIndex(index);
-  };
-  return (
-    <Card
-      sx={{
-        width: "100%",
-        maxWidth: 320,
-        bgcolor: "background.paper",
-        fontSize: 11,
-      }}
-    >
-      <p style={{ fontSize: 18, fontWeight: "bold", lineHeight: 0.2 }}>
-        Categories
-      </p>
-      <List
-        component="nav"
-        aria-label="main mailbox folders"
-        style={{ fontSize: 40 }}
-      >
+    const handleListItemClick = (
+        event: React.MouseEvent<HTMLDivElement, MouseEvent>,
+        index: number,
+    ) => {
+        setSelectedIndex(index);
+    };
+    return (
+    <Card sx={{ width: '100%', maxWidth: 320, bgcolor: 'background.paper',fontSize:11,maxHeight:450, }}>
+      <p style={{fontSize:18,fontWeight:'bold',lineHeight:0.2}}>Categories</p>
+      <List component="nav" aria-label="main mailbox folders" style={{fontSize:40}}>
         <CustomListItemButton
           selected={selectedIndex === 0}
           onClick={(event) => handleListItemClick(event, 0)}
@@ -148,7 +134,8 @@ export default function CategoryList() {
           </ListItemIcon>
           <ListItemText primary="Automobiles & Motorcycles" />
         </CustomListItemButton>
+
       </List>
     </Card>
-  );
+    );
 }
