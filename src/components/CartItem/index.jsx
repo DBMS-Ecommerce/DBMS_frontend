@@ -12,20 +12,16 @@ import AddNumberInput from "../AddNumberInput";
 import IMAGE from "../../assets/bag.svg";
 import IconButton from "@mui/material/IconButton";
 import DeleteIcon from "@mui/icons-material/Delete";
+import LocalShippingIcon from "@mui/icons-material/LocalShipping";
+
+
 
 export default function CartItem(props) {
   return (
     <div>
       <Stack direction="row" spacing={1}>
         <div>
-          <Checkbox
-          // sx={{
-          //   border: "4px solid",
-          //   borderImageSlice: 2,
-          //   borderImageSource:
-          //     "linear-gradient(180deg, #FF0101 0%, #F7941D 100%)",
-          // }}
-          />
+          <Checkbox />
         </div>
 
         <Card>
@@ -48,7 +44,12 @@ export default function CartItem(props) {
                     <Typography>
                       <b>LKR. {props.price}</b>
                     </Typography>
-                    {props.shipping}
+                    <Typography>
+                      <Stack direction="row" spacing={2}>
+                        <LocalShippingIcon />
+                        {props.shipping}
+                      </Stack>
+                    </Typography>
                     <AddNumberInput />
                   </Stack>
                 </div>
