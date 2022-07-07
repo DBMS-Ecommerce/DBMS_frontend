@@ -19,14 +19,20 @@ const CutomeImageButton = styled(Button)({
 });
 
 export default function ViewItemPage() {
-  const [value, setValue] = React.useState("");
+  const [value1, setValue1] = React.useState("");
+  const [value2, setValue2] = React.useState("");
 
-  const handleVariantChange = (event) => {
-    setValue(event.target.value);
+  const handleVariant1Change = (event) => {
+    setValue1(event.target.value1);
+  };
+
+  const handleVariant2Change = (event) => {
+    setValue2(event.target.value2);
   };
 
   React.useEffect(() => {
-    console.log(value);
+    console.log(value1);
+    console.log(value2);
   });
   return (
     <div>
@@ -79,8 +85,8 @@ export default function ViewItemPage() {
                             <RadioGroup
                               aria-labelledby="demo-controlled-radio-buttons-group"
                               name="controlled-radio-buttons-group"
-                              value={value}
-                              onChange={handleVariantChange}
+                              value={value1}
+                              onChange={handleVariant1Change}
                             >
                               <FormControlLabel
                                 value="black"
@@ -99,8 +105,8 @@ export default function ViewItemPage() {
                             <RadioGroup
                               aria-labelledby="demo-controlled-radio-buttons-group for size"
                               name="controlled-radio-buttons-group for size"
-                              value={value}
-                              onChange={handleVariantChange}
+                              value={value2}
+                              onChange={handleVariant2Change}
                             >
                               <FormControlLabel
                                 value="small"
