@@ -4,13 +4,16 @@ import { useSelector } from "react-redux";
 import CartPage from "../pages/CartPage";
 import CategoryPage from "../pages/CategoryPage";
 import LoginPage from "../pages/LoginPage";
+import SignupPage from "../pages/SignupPage";
 import HomePage from "../pages/HomePage";
 import ViewItemPage from "../pages/ViewItemPage";
 import ProfilePage from "../pages/ProfilePage";
+import SearchResultPage from "../pages/SearchResultPage";
 import AddCategoryPage from "../pages/owner/AddCategoryPage";
 import AddSubCategoryPage from "../pages/owner/AddSubCategoryPage";
 import NoPage from "../pages/NoPage";
 import AddProduct from "../pages/owner/AddProductPage";
+import OwnerLoginPage from "../pages/owner/OwnerLoginPage";
 
 export default function Router() {
   return (
@@ -21,14 +24,17 @@ export default function Router() {
           <Route path="/cart" element={<CartPage />} />
           <Route path="/category" element={<CategoryPage />} />
           <Route path="/login" element={<LoginPage />} />
+          <Route path="/signup" element={<SignupPage />} />
           <Route path="/viewItem" element={<ViewItemPage />} />
           <Route path="/profile" element={<ProfilePage />} />
+          <Route path="/SearchResult" element={<SearchResultPage />} />
           <Route path="*" element={<NoPage />} />
 
           <Route path="/owner">
             <Route path="addCategory" element={<AddCategoryPage />} />
             <Route path="addSubCategory" element={<AddSubCategoryPage />} />
             <Route path="addProduct" element={<AddProduct />} />
+            <Route path="login" element={<OwnerLoginPage />} />
             <Route path="*" element={<NoPage />} />
           </Route>
         </Routes>
