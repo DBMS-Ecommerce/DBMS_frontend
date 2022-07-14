@@ -15,10 +15,6 @@ import SnackBarComponent from "../../components/SnackBarComponent";
 import WOMAN from "../../assets/woman.svg";
 import Radio from "@mui/material/Radio";
 import Checkbox from "@mui/material/Checkbox";
-// import { IconButton, InputAdornment } from "@material-ui/core";
-// import InputLabel from "@mui/material/core/InputLabel";
-// import InputAdornment from "@mui/material/core/InputAdornment";
-// import { VisibilityOff, Visibility } from "@material-ui/icons";
 import { PRIMARY1_COLOR, PRIMARY2_COLOR } from "../../theme/colors";
 
 // import Input from "@mui/material/core/Input";
