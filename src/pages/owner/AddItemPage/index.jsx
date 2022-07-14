@@ -52,32 +52,32 @@ const columns = [
 ];
 
 function AddItem() {
-  const [fieldValue, setFieldValue] = React.useState(null);
-  const [upload, setUpload] = React.useState(true);
-  const [link, setLink] = React.useState("");
+  // const [fieldValue, setFieldValue] = React.useState(null);
+  // const [upload, setUpload] = React.useState(true);
+  // const [link, setLink] = React.useState("");
 
-  const handleFieldValue = (event) => {
-    setFieldValue(event.target.files[0]);
-  };
+  // const handleFieldValue = (event) => {
+  //   setFieldValue(event.target.files[0]);
+  // };
 
-  const uploadImage = () => {
-    let formData = new FormData();
+  // const uploadImage = () => {
+  //   let formData = new FormData();
 
-    formData.append("file", fieldValue);
-    formData.append("upload_preset", "qmpp9gnk");
+  //   formData.append("file", fieldValue);
+  //   formData.append("upload_preset", "qmpp9gnk");
 
-    Axios.post(
-      "https://api.cloudinary.com/v1_1/dxy8gayw4/image/upload",
-      formData
-    ).then((reponse) => {
-      // setLink(reponse['data']['secure_url']);
-      setLink(reponse["data"]["secure_url"]);
-      setUpload(false);
-      console.log(link);
-    });
+  //   Axios.post(
+  //     "https://api.cloudinary.com/v1_1/dxy8gayw4/image/upload",
+  //     formData
+  //   ).then((reponse) => {
+  //     // setLink(reponse['data']['secure_url']);
+  //     setLink(reponse["data"]["secure_url"]);
+  //     setUpload(false);
+  //     console.log(link);
+  //   });
 
-    console.log("image added");
-  };
+  //   console.log("image added");
+  // };
 
   const categoryList = ["Category 1", "Category 2", "Category 3"];
   const subCategoryList = [
@@ -87,15 +87,15 @@ function AddItem() {
   ];
   const productList = ["Product 1", "Product 2", "Product 3"];
 
-  React.useEffect(() => {
-    if (fieldValue !== null) {
-      uploadImage();
-    }
-  }, [fieldValue]);
+  // React.useEffect(() => {
+  //   if (fieldValue !== null) {
+  //     uploadImage();
+  //   }
+  // }, [fieldValue]);
 
-  React.useEffect(() => {
-    console.log(fieldValue);
-  });
+  // React.useEffect(() => {
+  //   console.log(fieldValue);
+  // });
 
   return (
     <Formik
@@ -244,59 +244,18 @@ function AddItem() {
                   </TableHead>
                   <TableBody>
                     {values.itemLst
-                      ? values.itemLst.map((item, index) => (
-                          <TableRow
-                            key={index}
-                            sx={{
-                              "&:last-child td, &:last-child th": {
-                                border: 0,
-                              },
-                            }}
-                          >
-                            <TableCell
-                              component="th"
-                              scope="row"
-                              align="center"
-                            >
-                              {item.sku}
-                            </TableCell>
-                            <TableCell>{item.name}</TableCell>
-                            <TableCell align="right">
-                              {item.unit_price}
-                            </TableCell>
-                            <TableCell align="right">
-                              <TitleText
-                                label="Quantity"
-                                name={`values.itemLst[${index}].quantity`}
-                                value={values.itemLst[index].quantity}
-                                onChange={handleChange}
-                                type="number"
-                                width="20%"
-                              />
-                            </TableCell>
-                            <TableCell align="center">
-                              <input
-                                accept="image/*"
-                                //   className={classes.input}
-                                id="icon-button-photo"
-                                onChange={handleFieldValue}
-                                // value={fieldValue}
-                                type="file"
-                                name="itemImg"
-                                hidden
-                              />
-                              <label htmlFor="icon-button-photo">
-                                <IconButton color="primary" component="span">
-                                  {upload ? (
-                                    <AddAPhotoIcon />
-                                  ) : (
-                                    <Avatar alt="" src={link} />
-                                  )}
-                                </IconButton>
-                              </label>
-                            </TableCell>
-                          </TableRow>
-                        ))
+                      ? values.itemLst.map((item, index) => {
+                          return (
+                            <ItemRow
+                              keyRow={index}
+                              sku={item.sku}
+                              name={item.name}
+                              price={item.unit_price}
+                              quantity={item.quantity}
+                              onChangeQuantity={handleChange}
+                            />
+                          );
+                        })
                       : null}
                   </TableBody>
                 </Table>
