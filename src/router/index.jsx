@@ -16,14 +16,11 @@ import NoPage from "../pages/NoPage";
 import MyOrders from "../pages/MyOrdersPage";
 import Checkout from "../pages/CheckoutPage";
 import AddProduct from "../pages/owner/AddProductPage";
-<<<<<<< HEAD
 import OwnerLoginPage from "../pages/owner/OwnerLoginPage";
-=======
 import AddVariant from "../pages/owner/AddVariantPage";
 import AddItem from "../pages/owner/AddItemPage";
 import ViewReports from "../pages/owner/ViewReportsPage";
 import CheckOrders from "../pages/owner/CheckOrdersPage";
->>>>>>> ee4c102f0445fd94c0fc2a14d0af19c0aeb56527
 
 export default function Router() {
   return (
@@ -47,14 +44,11 @@ export default function Router() {
             <Route path="addCategory" element={<AddCategoryPage />} />
             <Route path="addSubCategory" element={<AddSubCategoryPage />} />
             <Route path="addProduct" element={<AddProduct />} />
-<<<<<<< HEAD
             <Route path="login" element={<OwnerLoginPage />} />
-=======
             <Route path="addVariant" element={<AddVariant />} />
             <Route path="addItem" element={<AddItem />} />
             <Route path="checkOrders" element={<CheckOrders />} />
             <Route path="viewReports" element={<ViewReports />} />
->>>>>>> ee4c102f0445fd94c0fc2a14d0af19c0aeb56527
             <Route path="*" element={<NoPage />} />
           </Route>
         </Routes>

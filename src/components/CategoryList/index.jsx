@@ -18,11 +18,13 @@ import HealingIcon from "@mui/icons-material/Healing";
 import SettingsOutlinedIcon from "@mui/icons-material/SettingsOutlined";
 import Card from "@mui/material/Card";
 import { styled } from "@mui/system";
+import { useNavigate } from "react-router-dom";
 
 const CustomListItemButton = styled(ListItemButton)({
   height: 34,
 });
 export default function CategoryList() {
+  const navigate = useNavigate();
   const [selectedIndex, setSelectedIndex] = React.useState(1);
 
   const handleListItemClick = (
