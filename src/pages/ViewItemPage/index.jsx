@@ -132,15 +132,33 @@ export default function ViewItemPage() {
                 </div>
                 <div style={{ color: "red" }}>LKR 2500.00</div>
                 <div>
-                  <AddNumberInput />
+                  <AddNumberInput initialQuantity={0} />
                 </div>
                 <div>
                   <Stack direction="row" spacing={5}>
-                    <Button variant="contained">
+                    <Button
+                      variant="contained"
+                      sx={{
+                        background:
+                          "linear-gradient(180deg, #FF0101 0%, #F7941D 100%)",
+                        width: "20%",
+                        // left: "50%",
+                        top: "",
+                      }}
+                    >
                       <ShoppingBagIcon />
                       Buy Now
                     </Button>
-                    <Button variant="contained">
+                    <Button
+                      variant="contained"
+                      sx={{
+                        background:
+                          "linear-gradient(180deg, #FF0101 0%, #F7941D 100%)",
+                        width: "20%",
+                        // left: "75%",
+                        top: "",
+                      }}
+                    >
                       <AddShoppingCartIcon />
                       Add to Cart
                     </Button>

@@ -21,6 +21,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import CartImage from "../../assets/cartImage.svg";
 import { styled } from "@mui/material/styles";
 import CartItem from "../../components/CartItem";
+import { Link } from "react-router-dom";
 
 const CustomButton = styled(Button)({
   background: 'linear-gradient("180deg", "#FF0101", "0%", "#F7941D", "100%")',
@@ -34,49 +35,45 @@ const cartItems = [
 ];
 
 const cartObjectList = [
-  { description: "backpack", color: "black", price: "459", shipping: "free" },
-  { description: "backpack", color: "black", price: "459", shipping: "free" },
-  { description: "backpack", color: "black", price: "459", shipping: "free" },
-  { description: "backpack", color: "black", price: "459", shipping: "free" },
+  {
+    description: "backpack",
+    color: "black",
+    price: "459",
+    shipping: "free",
+    initialQuantity: 2,
+  },
+  {
+    description: "backpack",
+    color: "black",
+    price: "459",
+    shipping: "free",
+    initialQuantity: 1,
+  },
+  {
+    description: "backpack",
+    color: "black",
+    price: "459",
+    shipping: "free",
+    initialQuantity: 3,
+  },
+  {
+    description: "backpack",
+    color: "black",
+    price: "459",
+    shipping: "free",
+    initialQuantity: 5,
+  },
 ];
 
 export default function Cart() {
   return (
     <Stack direction="column" spacing={5}>
       <h1>Shopping Cart</h1>
-      <div>
-        <Stack direction="row" spacing={2}>
-          <div className="CartItemList">
-            <Stack direction="column" spacing={2}>
-              <CartItem
-                image={IMAGE}
-                description={
-                  "Teenager Backpack Leisure Travel Backpack Large Outdoor Hiking Backpack Youth College Student Bag Rucksack 6354"
-                }
-                color={"Black"}
-                price={"450.50"}
-                shipping={"Free shipping"}
-              />
-              <CartItem
-                image={IMAGE}
-                description={
-                  "Teenager Backpack Leisure Travel Backpack Large Outdoor Hiking Backpack Youth College Student Bag Rucksack 6354"
-                }
-                color={"Black"}
-                price={"450.50"}
-                shipping={"Free shipping"}
-              />
-              <CartItem
-                image={IMAGE}
-                description={
-                  "Teenager Backpack Leisure Travel Backpack Large Outdoor Hiking Backpack Youth College Student Bag Rucksack 6354"
-                }
-                color={"Black"}
-                price={"450.50"}
-                shipping={"Free shipping"}
-              />
-              <div>
-                {/* {cartItems.map((item) => {
+      <div style={{ height: "80%" }}>
+        <Stack direction="row" spacing={1}>
+          <div className="CartItemList" style={{ width: "70%" }}>
+            <div style={{ width: "100%", height: "60%", overflow: "scroll" }}>
+              {/* {cartItems.map((item) => {
                   return (
                     <CartItem
                       image={IMAGE}
@@ -87,23 +84,25 @@ export default function Cart() {
                     />
                   );
                 })} */}
-                {cartObjectList.map((item) => {
-                  return (
+              {cartObjectList.map((item) => {
+                return (
+                  <div style={{ margin: 10 }}>
                     <CartItem
                       image={IMAGE}
                       description={item.description}
                       color={item.color}
                       price={item.price}
                       shipping={item.shipping}
+                      initialQuantity={item.initialQuantity}
                     />
-                  );
-                })}
-              </div>
-            </Stack>
+                  </div>
+                );
+              })}
+            </div>
           </div>
-          <div>
+          <div style={{ paddingRight: "5%" }}>
             <Stack direction="column" spacing={10}>
-              <Card>
+              <Card sx={{ width: "100%" }}>
                 <React.Fragment>
                   <CardContent>
                     <Stack direction="column" spacing={2}>
@@ -125,7 +124,18 @@ export default function Cart() {
                         }}
                         variant="contained"
                       >
-                        Buy
+                        Proceed To Checkout
+                        {/* <Link
+                          component="button"
+                          variant="body2"
+                          href="/checkout"
+                          onClick={() => {
+                            console.info("I'm a button.");
+                          }}
+                        >
+                          {" "}
+                          Proceed to Checkout
+                        </Link> */}
                       </CustomButton>
                     </Stack>
                   </CardContent>
