@@ -13,9 +13,10 @@ function TitleText(props) {
       value={props.value}
       onChange={props.onChange}
       required
+      type={props.type}
       sx={{
         marginBottom: 3,
-        width: 500,
+        width: props.width,
         "& .MuiOutlinedInput-root": {
           "& > fieldset": {
             borderTopColor: PRIMARY1_COLOR,

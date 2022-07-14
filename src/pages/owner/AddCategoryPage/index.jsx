@@ -62,6 +62,7 @@ function AddCategory() {
                   name="categoryTitle"
                   onChange={handleChange}
                   value={values.categoryTitle}
+                  width="100%"
                 />
                 <FormControlLabel
                   control={
