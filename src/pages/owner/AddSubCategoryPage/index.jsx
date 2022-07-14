@@ -92,6 +92,7 @@ function AddSubCategory() {
                   name="subCategoryTitle"
                   onChange={handleChange}
                   value={values.subCategoryTitle}
+                  width="100%"
                 />
                 {/* {errors.subCategoryTitle &&
                   touched.subCategoryTitle &&

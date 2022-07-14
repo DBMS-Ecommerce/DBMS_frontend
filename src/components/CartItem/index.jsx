@@ -12,34 +12,36 @@ import AddNumberInput from "../AddNumberInput";
 import IMAGE from "../../assets/bag.svg";
 import IconButton from "@mui/material/IconButton";
 import DeleteIcon from "@mui/icons-material/Delete";
+import LocalShippingIcon from "@mui/icons-material/LocalShipping";
+import { PRIMARY1_COLOR, PRIMARY2_COLOR } from "../../theme/colors";
 
 export default function CartItem(props) {
   return (
-    <div>
+    <div style={{ width: "80%", paddingLeft: "5%" }}>
       <Stack direction="row" spacing={1}>
         <div>
           <Checkbox
-          // sx={{
-          //   border: "4px solid",
-          //   borderImageSlice: 2,
-          //   borderImageSource:
-          //     "linear-gradient(180deg, #FF0101 0%, #F7941D 100%)",
-          // }}
+            sx={{
+              color: PRIMARY2_COLOR,
+              "&.Mui-checked": {
+                color: PRIMARY1_COLOR,
+              },
+            }}
           />
         </div>
 
-        <Card>
+        <Card sx={{ width: "100%", margin: 2 }}>
           <Stack direction="row" spacing={2}>
-            <CardMedia>
+            <CardMedia sx={{ width: "30%" }}>
               <img
                 src={props.image}
                 alt="green iguana"
                 style={{ height: "10" }}
               />
             </CardMedia>
-            <CardContent sx={{ backgroundColor: "#F4F4F4" }}>
+            <CardContent sx={{ backgroundColor: "#F4F4F4", width: "70%" }}>
               <Stack direction="row" spacing={1}>
-                <div style={{ alignContent: "left" }}>
+                <div style={{ alignContent: "left", width: "90%" }}>
                   <Stack direction="column" spacing={1}>
                     <Typography>{props.description} </Typography>
                     <Typography>
@@ -48,8 +50,16 @@ export default function CartItem(props) {
                     <Typography>
                       <b>LKR. {props.price}</b>
                     </Typography>
-                    {props.shipping}
-                    <AddNumberInput />
+                    <Typography>
+                      <Stack direction="row" spacing={2}>
+                        <LocalShippingIcon />
+                        {props.shipping}
+                      </Stack>
+                    </Typography>
+                    <Stack direction="row" spacing={2}>
+                      Quantity:
+                      <AddNumberInput initialQuantity={props.initialQuantity} />
+                    </Stack>
                   </Stack>
                 </div>
                 <div>

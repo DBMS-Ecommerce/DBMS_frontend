@@ -104,6 +104,7 @@ function AddProduct() {
                   name="productTitle"
                   onChange={handleChange}
                   value={values.productTitle}
+                  width="100%"
                 />
 
                 <AddButton disabled={isSubmitting} />
