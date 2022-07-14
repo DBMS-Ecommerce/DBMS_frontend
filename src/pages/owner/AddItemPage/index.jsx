@@ -16,6 +16,7 @@ import {
   TableHead,
   TablePagination,
   TableRow,
+  TextField,
 } from "@mui/material";
 import { Formik } from "formik";
 import React from "react";
@@ -23,6 +24,8 @@ import PhotoIcon from "@mui/icons-material/Photo";
 import Axios from "axios";
 import TitleSelect from "../../../components/Owner/TitleSelect";
 import TitleText from "../../../components/Owner/TitleText";
+import ItemRow from "../../../components/Owner/ItemRow";
+import AddButton from "../../../components/Owner/AddButton";
 
 const columns = [
   { id: "sku", label: "SKU", minWidth: 170 },
@@ -97,21 +100,37 @@ function AddItem() {
   return (
     <Formik
       initialValues={{
-        photo: null || "",
         categoryTitle: "",
         subCategoryTitle: "",
         productTitle: "",
-        price: "",
-        quantity: "",
-        variantTypeLst: [
+        price: "77",
+        itemLst: [
           {
-            type: "",
-            variantLst: [
-              {
-                title: "",
-                price: "",
-              },
-            ],
+            sku: "AAB12345",
+            name: "I Phone X 32 GB Red",
+            product_id: "IPX",
+            unit_price: "125000",
+            quantity: 0,
+            image: null,
+            is_default: "0",
+          },
+          {
+            sku: "KLJ12345",
+            name: "I Phone X 32 GB Black",
+            product_id: "IPX",
+            unit_price: "130000",
+            quantity: 0,
+            image: null,
+            is_default: "0",
+          },
+          {
+            sku: "QWD12345",
+            name: "I Phone X 32 GB White",
+            product_id: "IPX",
+            unit_price: "145000",
+            quantity: 0,
+            image: null,
+            is_default: "0",
           },
         ],
       }}
@@ -216,63 +235,75 @@ function AddItem() {
                 <Table sx={{ minWidth: 650 }} aria-label="simple table">
                   <TableHead>
                     <TableRow>
-                      <TableCell>SKU</TableCell>
-                      <TableCell align="center">NAME</TableCell>
-                      <TableCell align="center">
-                        UNIT PRICE&nbsp;(RS.)
-                      </TableCell>
-                      <TableCell align="center">QUANTITY</TableCell>
+                      <TableCell align="center">SKU</TableCell>
+                      <TableCell>NAME</TableCell>
+                      <TableCell align="right">UNIT PRICE&nbsp;(RS.)</TableCell>
+                      <TableCell align="right">QUANTITY</TableCell>
                       <TableCell align="center">IMAGE</TableCell>
                     </TableRow>
                   </TableHead>
                   <TableBody>
-                    <TableRow
-                      key="1"
-                      sx={{
-                        "&:last-child td, &:last-child th": { border: 0 },
-                      }}
-                    >
-                      <TableCell component="th" scope="row">
-                        "Item 1"
-                      </TableCell>
-                      <TableCell align="right">1</TableCell>
-                      <TableCell align="right">2</TableCell>
-                      <TableCell align="right">
-                        <TitleText
-                          label=""
-                          name=""
-                          onChange={handleChange}
-                          value={values.price}
-                          type="number"
-                          width="20%"
-                        />
-                      </TableCell>
-                      <TableCell align="right">
-                        <input
-                          accept="image/*"
-                          //   className={classes.input}
-                          id="icon-button-photo"
-                          onChange={handleFieldValue}
-                          value={values.fieldValue}
-                          type="file"
-                          name="itemImg"
-                          hidden
-                        />
-                        <label htmlFor="icon-button-photo">
-                          <IconButton color="primary" component="span">
-                            {upload ? (
-                              <AddAPhotoIcon />
-                            ) : (
-                              <Avatar alt="" src={link} />
-                            )}
-                          </IconButton>
-                        </label>
-                      </TableCell>
-                    </TableRow>
+                    {values.itemLst
+                      ? values.itemLst.map((item, index) => (
+                          <TableRow
+                            key={index}
+                            sx={{
+                              "&:last-child td, &:last-child th": {
+                                border: 0,
+                              },
+                            }}
+                          >
+                            <TableCell
+                              component="th"
+                              scope="row"
+                              align="center"
+                            >
+                              {item.sku}
+                            </TableCell>
+                            <TableCell>{item.name}</TableCell>
+                            <TableCell align="right">
+                              {item.unit_price}
+                            </TableCell>
+                            <TableCell align="right">
+                              <TitleText
+                                label="Quantity"
+                                name={`values.itemLst[${index}].quantity`}
+                                value={values.itemLst[index].quantity}
+                                onChange={handleChange}
+                                type="number"
+                                width="20%"
+                              />
+                            </TableCell>
+                            <TableCell align="center">
+                              <input
+                                accept="image/*"
+                                //   className={classes.input}
+                                id="icon-button-photo"
+                                onChange={handleFieldValue}
+                                // value={fieldValue}
+                                type="file"
+                                name="itemImg"
+                                hidden
+                              />
+                              <label htmlFor="icon-button-photo">
+                                <IconButton color="primary" component="span">
+                                  {upload ? (
+                                    <AddAPhotoIcon />
+                                  ) : (
+                                    <Avatar alt="" src={link} />
+                                  )}
+                                </IconButton>
+                              </label>
+                            </TableCell>
+                          </TableRow>
+                        ))
+                      : null}
                   </TableBody>
                 </Table>
               </TableContainer>
             </Box>
+            <br />
+            <AddButton disabled={isSubmitting} />
           </Paper>
         </form>
       )}
