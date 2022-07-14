@@ -1,72 +1,76 @@
 import React from "react";
 import GIRL from "../../assets/girl.svg";
-import LoggedNavigationBar from "../../components/LoggedNavigationBar";
+import NavigationBar from "../../components/NavigationBar";
 import CategoryList from "../../components/CategoryList";
 import HomeItem from "../../components/HomeItem";
 import { Card } from "@mui/material";
 import Stack from "@mui/material/Stack";
 import IMAGE from "../../assets/camera.svg";
-
+import Box from "@mui/material/Box";
 // import { useNavigate } from "react-router-dom";
 
 export default function Home() {
   //   const navigate = useNavigate();
+  const items = [
+    {
+      image: IMAGE,
+      description: "NEW Original Lenovo LP40 Camera",
+      price: "LKR 1,449.58",
+    },
+    {
+      image: IMAGE,
+      description: "NEW fbu Lenovo LP40 Camera",
+      price: "LKR 1,449.58",
+    },
+    {
+      image: IMAGE,
+      description: "NEW Orvjbiginal Lenovo LP40 Camera",
+      price: "LKR 1,449.58",
+    },
+    {
+      image: IMAGE,
+      description: "NEW fbiuhm Lenovo LP40 Camera",
+      price: "LKR 1,449.58",
+    },
+    {
+      image: IMAGE,
+      description: "NEW h h Lenovo LP40 Camera",
+      price: "LKR 1,449.58",
+    },
+  ];
   return (
     <div>
-      <LoggedNavigationBar />
-      <div style={{ marginTop: 46 }}>
+      <NavigationBar />
+      <div style={{ textAlign: "center" }}>
         <Stack direction="row">
           <CategoryList />
           <div style={{ margin: 10 }}>
             <Card style={{ backgroundColor: "#F4F4F4" }}>
-              <p style={{ fontWeight: "bold", fontSize: 20 }}>New Arrivals</p>
+              <p style={{ fontWeight: "bold", fontSize: 20 }}>
+                Popular Items...
+              </p>
               <div style={{ overflowY: "scroll", maxHeight: 480 }}>
-                <Stack direction="column">
-                  <Stack direction="row">
-                    <HomeItem
-                      image={IMAGE}
-                      description={"NEW Original Lenovo LP40 Camera"}
-                      price={"LKR 1,449.58"}
-                    />
-                    <HomeItem
-                      image={IMAGE}
-                      description={"Global Version Xiaomi Mi"}
-                      price={"LKR 1,449.58"}
-                    />
-                    <HomeItem
-                      image={IMAGE}
-                      description={"NEW Original Lenovo LP40 Camera"}
-                      price={"LKR 1,449.58"}
-                    />
-                    <HomeItem
-                      image={IMAGE}
-                      description={"NEW Original Lenovo LP40 Camera"}
-                      price={"LKR 1,449.58"}
-                    />
-                  </Stack>
-                  <Stack direction="row">
-                    <HomeItem
-                      image={IMAGE}
-                      description={"NEW Original Lenovo LP40 Camera"}
-                      price={"LKR 1,449.58"}
-                    />
-                    <HomeItem
-                      image={IMAGE}
-                      description={"Global Version Xiaomi Mi"}
-                      price={"LKR 1,449.58"}
-                    />
-                    <HomeItem
-                      image={IMAGE}
-                      description={"NEW Original Lenovo LP40 Camera"}
-                      price={"LKR 1,449.58"}
-                    />
-                    <HomeItem
-                      image={IMAGE}
-                      description={"NEW Original Lenovo LP40 Camera"}
-                      price={"LKR 1,449.58"}
-                    />
-                  </Stack>
-                </Stack>
+                <Box
+                  sx={{
+                    display: "flex",
+                    flexWrap: "wrap",
+                    alignContent: "flex-start",
+                    // justifyContent: "space-evenly",
+                    p: 1,
+                    m: 1,
+                    borderRadius: 1,
+                  }}
+                >
+                  {items.map((item) => {
+                    return (
+                      <HomeItem
+                        image={item.image}
+                        description={item.description}
+                        price={item.price}
+                      />
+                    );
+                  })}
+                </Box>
               </div>
             </Card>
           </div>
