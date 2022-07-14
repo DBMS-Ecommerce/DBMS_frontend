@@ -44,7 +44,13 @@ export default function Order(props) {
                   {/* Order Status */}
                   <Button
                     variant="contained"
-                    sx={{ width: "20%", backgroundColor: { PRIMARY1_COLOR } }}
+                    sx={{
+                      background:
+                        "linear-gradient(180deg, #FF0101 0%, #F7941D 100%)",
+                      width: "20%",
+                      left: "70%",
+                      top: "",
+                    }}
                   >
                     View
                   </Button>

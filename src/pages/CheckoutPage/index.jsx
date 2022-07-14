@@ -12,9 +12,10 @@ import FormLabel from "@mui/material/FormLabel";
 import TextareaAutosize from "@mui/material/TextareaAutosize";
 import { PRIMARY1_COLOR, PRIMARY2_COLOR } from "../../theme/colors";
 import { PRIMARY_FONT } from "../../theme/fonts";
-import { Formik } from "formik";
+import { Formik, Field } from "formik";
 import * as Yup from "yup";
 import { useState } from "react";
+// import { Redirect } from "react-router-dom";
 
 const CustomTextField = styled(TextField)({
   width: 350,
@@ -74,6 +75,8 @@ export default function Checkout() {
           email: "",
           orderNote: "",
           orderType: "",
+          picked: "",
+          totalPrice: { count },
         }}
         validate={(values) => {
           const errors = {};
@@ -142,7 +145,26 @@ export default function Checkout() {
                   {/* <Typography>Description blah blah blah blah</Typography>
                   <Typography>price: LKR 4990/=</Typography>
                   <Typography>Sub total: LKR 4990/=</Typography> */}
-
+                  {/* <div id="my-radio-group">Select Order Type</div>
+                  <div role="group" aria-labelledby="my-radio-group">
+                    <label>
+                      <Field
+                        type="radio"
+                        name="orderType"
+                        value="deliveryOrder"
+                      />
+                      Delivery Order
+                    </label>
+                    <label>
+                      <Field
+                        type="radio"
+                        name="orderType"
+                        value="pickUpOrder"
+                      />
+                      Pick Up Order
+                    </label>
+                    <div>Order Type: {values.orderType}</div>
+                  </div> */}
                   <FormControl>
                     <FormLabel id="demo-radio-buttons-group-label">
                       Order Type
@@ -153,12 +175,14 @@ export default function Checkout() {
                       name="radio-buttons-group"
                     >
                       <FormControlLabel
+                        name="orderType"
                         value="deliveryOrder"
                         control={<Radio />}
                         label="Delivery Order: 400 LKR"
                         onChange={() => setCount(count + deliveryCharge)}
                       />
                       <FormControlLabel
+                        name="orderType"
                         value="pickUpOrder"
                         control={<Radio />}
                         label="PickUp Order"

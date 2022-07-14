@@ -3,7 +3,18 @@ import Button from "@mui/material/Button";
 import ButtonGroup from "@mui/material/ButtonGroup";
 
 class GroupedButtons extends React.Component {
-  state = { counter: 0 };
+  // state = {
+  //   initialQuantity: this.props.initialQuantity,
+  // };
+  constructor() {
+    super();
+    this.state = { counter: 0 };
+  }
+
+  componentDidMount() {
+    console.log(this.props);
+    this.setState({ counter: this.props.initialQuantity });
+  }
 
   handleIncrement = () => {
     this.setState((state) => ({ counter: state.counter + 1 }));
