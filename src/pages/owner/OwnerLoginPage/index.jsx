@@ -9,10 +9,8 @@ import { useNavigate } from "react-router-dom";
 import Link from "@mui/material/Link";
 import { Stack, ThemeProvider } from "@mui/material";
 import * as Yup from "yup";
-import HeightBox from "../../components/HeightBox";
-import NavigationBar from "../../components/NavigationBar";
-import SnackBarComponent from "../../components/SnackBarComponent";
-import WOMAN from "../../assets/woman.svg";
+import HeightBox from "../../../components/HeightBox";
+import SnackBarComponent from "../../../components/SnackBarComponent";
 import Radio from "@mui/material/Radio";
 import Checkbox from "@mui/material/Checkbox";
 import { IconButton, InputAdornment } from "@material-ui/core";
@@ -20,28 +18,28 @@ import { IconButton, InputAdornment } from "@material-ui/core";
 // import InputAdornment from "@mui/material/core/InputAdornment";
 import { VisibilityOff, Visibility } from "@material-ui/icons";
 // import Input from "@mui/material/core/Input";
-import { PRIMARY1_COLOR, PRIMARY2_COLOR } from "../../theme/colors";
+import { PRIMARY1_COLOR, PRIMARY2_COLOR } from "../../../theme/colors";
+import bg_category from "../../../assets/bg_cat.svg";
 
 const CustomTextField = styled(TextField)({
   width: 600,
   "& .MuiOutlinedInput-root": {
     "& > fieldset": {
-      width: 600,
-      borderRadius: 24,
+      width: 500,
       borderTopColor: PRIMARY1_COLOR,
       borderBottomColor: PRIMARY2_COLOR,
       borderLeftColor: PRIMARY1_COLOR,
       borderRightColor: PRIMARY2_COLOR,
-      borderWidth: "1.8px",
-      height: 48,
+      borderWidth: "3px",
+      height: 58,
       // fontColor: "#C8D3F9",
     },
   },
 });
 const CustomButton = styled(Button)({
-  borderRadius: 28,
-  height: 48,
-  width: 620,
+  height: 44,
+  width: 100,
+  borderRadius: 22,
   background: "linear-gradient(180deg, #FF0101 30%, #F7941D 90%)",
 });
 
@@ -123,17 +121,6 @@ export default function SignIn() {
 
   return (
     <div>
-      <NavigationBar />
-      <img
-        src={WOMAN}
-        alt=""
-        style={{
-          width: 380,
-          position: "absolute",
-          marginTop: 5,
-          paddingLeft: "900px",
-        }}
-      />
       <div
         style={{
           maxWidth: 2000,
@@ -150,22 +137,12 @@ export default function SignIn() {
         />
 
         <Stack direction="row" spacing={15}>
-          <div style={{ paddingLeft: "150px", paddingTop: 70 }}>
-            <h2 style={{ fontSize: 34, margin: 0, textAlign: "left" }}>
+          <div
+            style={{ paddingLeft: "150px", paddingTop: 70, marginLeft: "20%" }}
+          >
+            {/* <h2 style={{ fontSize: 34, margin: 0, textAlign: "left" }}>
               WELCOME BACK!
-            </h2>
-            <p
-              style={{
-                color: "rgba(0,0,0,0.5)",
-                textAlign: "left",
-                lineHeight: 3,
-              }}
-            >
-              Don't have an account,
-              <Link href="/signup" underline="hover" color="rgba(255,1,1)">
-                Sign Up
-              </Link>
-            </p>
+            </h2> */}
 
             <Stack direction="column" spacing={2}>
               <Formik
@@ -224,7 +201,16 @@ export default function SignIn() {
                 }}
               </Formik>
             </Stack>
-
+            <img
+              src={bg_category}
+              style={{
+                width: 496,
+                height: 325,
+                position: "absolute",
+                bottom: "3%",
+                left: "20%",
+              }}
+            />
             <HeightBox height={15} />
           </div>
         </Stack>
