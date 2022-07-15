@@ -96,7 +96,7 @@ function OrderCard(props) {
             textDecorationLine: "none",
           }}
           onClick={(e) =>
-            navigate("/owner/viewOrder", {
+            navigate("/owner/viewOrder?orderID=" + props.order_id, {
               state: {
                 order_id: props.order_id,
                 date: props.date,
