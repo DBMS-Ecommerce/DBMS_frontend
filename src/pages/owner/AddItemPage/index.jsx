@@ -26,6 +26,10 @@ import TitleSelect from "../../../components/Owner/TitleSelect";
 import TitleText from "../../../components/Owner/TitleText";
 import ItemRow from "../../../components/Owner/ItemRow";
 import AddButton from "../../../components/Owner/AddButton";
+import { PRIMARY_GRADIENT } from "../../../theme/colors";
+import { PRIMARY_FONT } from "../../../theme/fonts";
+import SearchIcon from "@mui/icons-material/Search";
+import ItemTable from "../../../components/Owner/ItemTable";
 
 const columns = [
   { id: "sku", label: "SKU", minWidth: 170 },
@@ -52,33 +56,6 @@ const columns = [
 ];
 
 function AddItem() {
-  const [fieldValue, setFieldValue] = React.useState(null);
-  const [upload, setUpload] = React.useState(true);
-  const [link, setLink] = React.useState("");
-
-  const handleFieldValue = (event) => {
-    setFieldValue(event.target.files[0]);
-  };
-
-  const uploadImage = () => {
-    let formData = new FormData();
-
-    formData.append("file", fieldValue);
-    formData.append("upload_preset", "qmpp9gnk");
-
-    Axios.post(
-      "https://api.cloudinary.com/v1_1/dxy8gayw4/image/upload",
-      formData
-    ).then((reponse) => {
-      // setLink(reponse['data']['secure_url']);
-      setLink(reponse["data"]["secure_url"]);
-      setUpload(false);
-      console.log(link);
-    });
-
-    console.log("image added");
-  };
-
   const categoryList = ["Category 1", "Category 2", "Category 3"];
   const subCategoryList = [
     "Sub Category 1",
@@ -87,15 +64,13 @@ function AddItem() {
   ];
   const productList = ["Product 1", "Product 2", "Product 3"];
 
-  React.useEffect(() => {
-    if (fieldValue !== null) {
-      uploadImage();
-    }
-  }, [fieldValue]);
+  const [load, setLoad] = React.useState(false);
 
-  React.useEffect(() => {
-    console.log(fieldValue);
-  });
+  // const handleLoad = (categoryTitle, subCategoryTitle, productTitle) => {
+  //   if ((categoryTitle !== "", subCategoryTitle !== "", productTitle !== "")) {
+  //     setLoad(true);
+  //   }
+  // };
 
   return (
     <Formik
@@ -103,36 +78,9 @@ function AddItem() {
         categoryTitle: "",
         subCategoryTitle: "",
         productTitle: "",
-        price: "77",
-        itemLst: [
-          {
-            sku: "AAB12345",
-            name: "I Phone X 32 GB Red",
-            product_id: "IPX",
-            unit_price: "125000",
-            quantity: 0,
-            image: null,
-            is_default: "0",
-          },
-          {
-            sku: "KLJ12345",
-            name: "I Phone X 32 GB Black",
-            product_id: "IPX",
-            unit_price: "130000",
-            quantity: 0,
-            image: null,
-            is_default: "0",
-          },
-          {
-            sku: "QWD12345",
-            name: "I Phone X 32 GB White",
-            product_id: "IPX",
-            unit_price: "145000",
-            quantity: 0,
-            image: null,
-            is_default: "0",
-          },
-        ],
+
+        selectedValue: "",
+        itemLst: [],
       }}
       validate={(values) => {
         const errors = {};
@@ -149,8 +97,9 @@ function AddItem() {
       }}
       onSubmit={(values, { setSubmitting }) => {
         setTimeout(() => {
-          alert(JSON.stringify(values, null, 2));
+          // alert(JSON.stringify(values, null, 2));
           setSubmitting(false);
+          console.log(values);
         }, 400);
       }}
     >
@@ -159,13 +108,15 @@ function AddItem() {
         errors,
         touched,
         handleChange,
+        setValues,
+        setFieldValue,
         handleBlur,
         handleSubmit,
         isSubmitting,
         /* and other goodies */
       }) => (
         <form onSubmit={handleSubmit}>
-          <Paper sx={{ width: "100%", overflow: "hidden" }}>
+          <Paper sx={{ width: "100%", overflow: "hidden", paddingBottom: 5 }}>
             <Box
               sx={{
                 display: "flex",
@@ -222,88 +173,128 @@ function AddItem() {
                       name="productTitle"
                       value={values.productTitle}
                       label="Product Title"
-                      onChange={(e) => {
-                        handleChange(e);
-                      }}
+                      onChange={handleChange}
                       list={productList}
                     />
                   </FormControl>
                 </FormGroup>
               </Box>
-              <Divider />
-              <TableContainer component={Paper}>
-                <Table sx={{ minWidth: 650 }} aria-label="simple table">
-                  <TableHead>
-                    <TableRow>
-                      <TableCell align="center">SKU</TableCell>
-                      <TableCell>NAME</TableCell>
-                      <TableCell align="right">UNIT PRICE&nbsp;(RS.)</TableCell>
-                      <TableCell align="right">QUANTITY</TableCell>
-                      <TableCell align="center">IMAGE</TableCell>
-                    </TableRow>
-                  </TableHead>
-                  <TableBody>
-                    {values.itemLst
-                      ? values.itemLst.map((item, index) => (
-                          <TableRow
-                            key={index}
-                            sx={{
-                              "&:last-child td, &:last-child th": {
-                                border: 0,
-                              },
-                            }}
-                          >
-                            <TableCell
-                              component="th"
-                              scope="row"
-                              align="center"
-                            >
-                              {item.sku}
-                            </TableCell>
-                            <TableCell>{item.name}</TableCell>
-                            <TableCell align="right">
-                              {item.unit_price}
-                            </TableCell>
-                            <TableCell align="right">
-                              <TitleText
-                                label="Quantity"
-                                name={`values.itemLst[${index}].quantity`}
-                                value={values.itemLst[index].quantity}
-                                onChange={handleChange}
-                                type="number"
-                                width="20%"
-                              />
-                            </TableCell>
-                            <TableCell align="center">
-                              <input
-                                accept="image/*"
-                                //   className={classes.input}
-                                id="icon-button-photo"
-                                onChange={handleFieldValue}
-                                // value={fieldValue}
-                                type="file"
-                                name="itemImg"
-                                hidden
-                              />
-                              <label htmlFor="icon-button-photo">
-                                <IconButton color="primary" component="span">
-                                  {upload ? (
-                                    <AddAPhotoIcon />
-                                  ) : (
-                                    <Avatar alt="" src={link} />
-                                  )}
-                                </IconButton>
-                              </label>
-                            </TableCell>
-                          </TableRow>
-                        ))
-                      : null}
-                  </TableBody>
-                </Table>
-              </TableContainer>
+              {/* <Button
+                variant="contained"
+                sx={{
+                  width: 150,
+                  borderRadius: 45,
+                  background: PRIMARY_GRADIENT,
+                  fontFamily: PRIMARY_FONT,
+                  fontWeight: 600,
+                  fontSize: 16.5,
+                  letterSpacing: 1.25,
+                  position: "relative",
+                  left: "75%",
+                  top: -40,
+                }}
+                onClick={(e) => {
+                  setFieldValue("itemLst", [
+                    {
+                      sku: "AAB12345",
+                      name: "I Phone X 32 GB Red",
+                      product_id: "IPX",
+                      unit_price: "125000",
+                      quantity: 0,
+                      image: null,
+                      is_default: "0",
+                    },
+                    {
+                      sku: "KLJ12345",
+                      name: "I Phone X 32 GB Black",
+                      product_id: "IPX",
+                      unit_price: "130000",
+                      quantity: 0,
+                      image: null,
+                      is_default: "0",
+                    },
+                    {
+                      sku: "QWD12345",
+                      name: "I Phone X 32 GB White",
+                      product_id: "IPX",
+                      unit_price: "145000",
+                      quantity: 0,
+                      image: null,
+                      is_default: "0",
+                    },
+                  ]);
+                }}
+              >
+                Load Items
+              </Button> */}
+              {values.itemLst.length != 0 ? (
+                <div>
+                  <TitleText />
+                  <Button>
+                    <SearchIcon />
+                  </Button>
+                  <ItemTable
+                    itemLst={values.itemLst}
+                    selectedValue={values.selectedValue}
+                    handleChange={handleChange}
+                    setFieldValue={setFieldValue}
+                  />
+                </div>
+              ) : (
+                <Button
+                  variant="contained"
+                  sx={{
+                    width: 150,
+                    borderRadius: 45,
+                    background: PRIMARY_GRADIENT,
+                    fontFamily: PRIMARY_FONT,
+                    fontWeight: 600,
+                    fontSize: 16.5,
+                    letterSpacing: 1.25,
+                    position: "relative",
+                    left: "75%",
+                    top: -40,
+                  }}
+                  onClick={(e) => {
+                    setFieldValue("itemLst", [
+                      {
+                        sku: "AAB12345",
+                        name: "I Phone X 32 GB Red",
+                        product_id: "IPX",
+                        unit_price: "125000",
+                        quantity: 0,
+                        image: null,
+                        is_default: "0",
+                      },
+                      {
+                        sku: "KLJ12345",
+                        name: "I Phone X 32 GB Black",
+                        product_id: "IPX",
+                        unit_price: "130000",
+                        quantity: 0,
+                        image: null,
+                        is_default: "0",
+                      },
+                      {
+                        sku: "QWD12345",
+                        name: "I Phone X 32 GB White",
+                        product_id: "IPX",
+                        unit_price: "145000",
+                        quantity: 0,
+                        image: null,
+                        is_default: "0",
+                      },
+                    ]);
+                  }}
+                >
+                  Load Items
+                </Button>
+              )}
             </Box>
             <br />
-            <AddButton disabled={isSubmitting} />
+            {values.itemLst.length != 0 ? (
+              <AddButton disabled={isSubmitting} />
+            ) : null}
           </Paper>
         </form>
       )}
