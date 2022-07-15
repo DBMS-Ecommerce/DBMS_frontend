@@ -18,6 +18,7 @@ import AddVariant from "../pages/owner/AddVariantPage";
 import AddItem from "../pages/owner/AddItemPage";
 import ViewReports from "../pages/owner/ViewReportsPage";
 import CheckOrders from "../pages/owner/CheckOrdersPage";
+import ViewOrder from "../pages/owner/ViewOrderPage";
 
 export default function Router() {
   return (
@@ -42,6 +43,7 @@ export default function Router() {
             <Route path="addVariant" element={<AddVariant />} />
             <Route path="addItem" element={<AddItem />} />
             <Route path="checkOrders" element={<CheckOrders />} />
+            <Route path="viewOrder" element={<ViewOrder />} />
             <Route path="viewReports" element={<ViewReports />} />
             <Route path="*" element={<NoPage />} />
           </Route>
