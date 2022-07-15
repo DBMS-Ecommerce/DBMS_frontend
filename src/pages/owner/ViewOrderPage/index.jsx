@@ -1,4 +1,5 @@
 import {
+  Button,
   Divider,
   Paper,
   Stack,
@@ -13,6 +14,7 @@ import {
 import { Box } from "@mui/system";
 import React from "react";
 import { useLocation } from "react-router-dom";
+import { PRIMARY_GRADIENT } from "../../../theme/colors";
 import { PRIMARY_FONT } from "../../../theme/fonts";
 
 function ViewOrder() {
@@ -84,6 +86,15 @@ function ViewOrder() {
         </Divider>
 
         <br />
+
+
+        <Typography
+          sx={{ fontSize: 16, fontFamily: PRIMARY_FONT }}
+          color="text.secondary"
+          gutterBottom
+        >
+         Customer ID: <b>{customer_id}</b>
+        </Typography>
 
         <Typography
           sx={{ fontSize: 16, fontFamily: PRIMARY_FONT }}
@@ -196,6 +207,26 @@ function ViewOrder() {
             </TableBody>
           </Table>
         </TableContainer>
+        <Button
+      variant="contained"
+      type="submit"
+      
+      sx={{
+        width: 100,
+        borderRadius: 45,
+        background: PRIMARY_GRADIENT,
+
+        fontFamily: PRIMARY_FONT,
+        fontWeight: 600,
+        fontSize: 16.5,
+        letterSpacing: 1.25,
+        position: "relative",
+        left: "85%",
+        top: 15
+      }}
+    >
+      Confirm
+    </Button>
       </Paper>
     </Box>
   );
