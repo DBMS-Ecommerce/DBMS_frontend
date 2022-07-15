@@ -54,13 +54,8 @@ export default function CartItem(props) {
                     <Typography>
                       <b>LKR. {props.price}</b>
                     </Typography>
-                    <Typography>
-                      <Stack direction="row" spacing={2}>
-                        <LocalShippingIcon />
-                        {props.shipping}
-                      </Stack>
-                    </Typography>
-                    <Stack direction="row" spacing={2}>
+
+                    <Stack direction="row" spacing={5}>
                       Quantity:
                       <AddNumberInput initialQuantity={props.initialQuantity} />
                     </Stack>

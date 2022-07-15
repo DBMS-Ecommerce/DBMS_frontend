@@ -23,6 +23,7 @@ import { styled } from "@mui/material/styles";
 import CartItem from "../../components/CartItem";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
+import NavigationBar from "../../components/NavigationBar";
 
 const CustomButton = styled(Button)({
   background: 'linear-gradient("180deg", "#FF0101", "0%", "#F7941D", "100%")',
@@ -78,13 +79,14 @@ export default function Cart() {
   const navigate = useNavigate();
 
   return (
-    <Stack direction="column" spacing={5}>
-      <h1>Shopping Cart</h1>
-      <div style={{ height: "80%" }}>
-        <Stack direction="row" spacing={1}>
-          <div className="CartItemList" style={{ width: "70%" }}>
-            <div style={{ width: "100%", height: "60%", overflow: "scroll" }}>
-              {/* {cartItems.map((item) => {
+    <React.Fragment>
+      <NavigationBar />
+      <Stack direction="column" spacing={5}>
+        <div style={{ height: "80%" }}>
+          <Stack direction="row" spacing={10}>
+            <div className="CartItemList" style={{ width: "70%" }}>
+              <div style={{ width: "100%", height: "60%" }}>
+                {/* {cartItems.map((item) => {
                   return (
                     <CartItem
                       image={IMAGE}
@@ -95,68 +97,67 @@ export default function Cart() {
                     />
                   );
                 })} */}
-              {cartObjectList.map((item) => {
-                return (
-                  <div style={{ margin: 10 }}>
-                    <CartItem
-                      image={IMAGE}
-                      description={item.description}
-                      color={item.color}
-                      price={item.price}
-                      shipping={item.shipping}
-                      initialQuantity={item.initialQuantity}
-                      // changeTotal={this.changeSubTotal}
-                    />
-                  </div>
-                );
-              })}
+                {cartObjectList.map((item) => {
+                  return (
+                    <div style={{ margin: 10 }}>
+                      <CartItem
+                        image={IMAGE}
+                        description={item.description}
+                        color={item.color}
+                        price={item.price}
+                        initialQuantity={item.initialQuantity}
+                        // changeTotal={this.changeSubTotal}
+                      />
+                    </div>
+                  );
+                })}
+              </div>
             </div>
-          </div>
-          <div style={{ paddingRight: "5%" }}>
-            <Stack direction="column" spacing={10}>
-              <Card sx={{ width: "100%" }}>
-                <React.Fragment>
-                  <CardContent>
-                    <Stack direction="column" spacing={2}>
-                      <Typography
-                      // sx={{ fontSize: 14, width: 200 }}
-                      // color="text.secondary"
-                      >
-                        <b>Order Summery</b>
-                        {cartObjectList.map((item) => {
-                          let temp = item.price * item.initialQuantity;
-                          subTotal = subTotal + temp;
+            <div style={{ paddingRight: "5%", position: "fixed", left: "70%" }}>
+              <Stack direction="column" spacing={8}>
+                <Card sx={{ width: "100%" }}>
+                  <React.Fragment>
+                    <CardContent sx={{ alignContent: "center" }}>
+                      <Stack direction="column" spacing={2}>
+                        <Typography
+                        // sx={{ fontSize: 14, width: 200 }}
+                        // color="text.secondary"
+                        >
+                          <b>Order Summery</b>
+                          {cartObjectList.map((item) => {
+                            let temp = item.price * item.initialQuantity;
+                            subTotal = subTotal + temp;
 
-                          subTotal = subTotal;
-                          return (
-                            <div>
-                              {item.price} * {item.initialQuantity} = {temp}
-                            </div>
-                          );
-                        })}
-                      </Typography>
-                      <Typography>Sub total: LKR {subTotal / 2}</Typography>
-                      <Typography>Shipping fee: LKR 400.00</Typography>
+                            subTotal = subTotal;
+                            // return (
+                            //   <div>
+                            //     {item.price} * {item.initialQuantity} = {temp}
+                            //   </div>
+                            // );
+                          })}
+                        </Typography>
+                        <Typography>Sub total: LKR {subTotal / 2}</Typography>
+                        <Typography>Shipping fee: LKR 400.00</Typography>
 
-                      <Typography>
-                        <b>Total: LKR {subTotal / 2 + 400.0}</b>
-                      </Typography>
-                      <CustomButton
-                        sx={{
-                          background:
-                            "linear-gradient(180deg, #FF0101 0%, #F7941D 100%)",
-                        }}
-                        variant="contained"
-                        onClick={(e) =>
-                          navigate("/checkout", {
-                            state: {
-                              subTotal: subTotal / 2,
-                            },
-                          })
-                        }
-                      >
-                        Proceed To Checkout
-                        {/* <Link
+                        <Typography>
+                          <b>Total: LKR {subTotal / 2 + 400.0}</b>
+                        </Typography>
+                        <CustomButton
+                          sx={{
+                            background:
+                              "linear-gradient(180deg, #FF0101 0%, #F7941D 100%)",
+                          }}
+                          variant="contained"
+                          onClick={(e) =>
+                            navigate("/checkout", {
+                              state: {
+                                subTotal: subTotal / 2,
+                              },
+                            })
+                          }
+                        >
+                          Proceed To Checkout
+                          {/* <Link
                           component="button"
                           variant="body2"
                           href="/checkout"
@@ -167,24 +168,25 @@ export default function Cart() {
                           {" "}
                           Proceed to Checkout
                         </Link> */}
-                      </CustomButton>
-                    </Stack>
-                  </CardContent>
-                </React.Fragment>
-              </Card>
-              <div className="ImageDiv">
-                <img
-                  src={CartImage}
-                  alt="green iguana"
-                  // style={{ height: "10" }}
-                />
-              </div>
-            </Stack>
-          </div>
-        </Stack>
-      </div>
+                        </CustomButton>
+                      </Stack>
+                    </CardContent>
+                  </React.Fragment>
+                </Card>
+                <div className="ImageDiv">
+                  <img
+                    src={CartImage}
+                    alt="green iguana"
+                    // style={{ height: "10" }}
+                  />
+                </div>
+              </Stack>
+            </div>
+          </Stack>
+        </div>
 
-      {/* Create Component */}
-    </Stack>
+        {/* Create Component */}
+      </Stack>
+    </React.Fragment>
   );
 }

@@ -6,6 +6,7 @@ import CategoryList from "../../components/CategoryList";
 import { height } from "@mui/system";
 import GIRLIMAGE from "../../assets/categoryGirl.svg";
 import Box from "@mui/material/Box";
+import NavigationBar from "../../components/NavigationBar";
 
 export default function ViewCategory() {
   const subCategoryList = [
@@ -57,11 +58,12 @@ export default function ViewCategory() {
   ];
   return (
     <React.Fragment>
+      <NavigationBar />
       <Stack direction="row" spacing={5}>
         <div
           style={{
             position: "fixed",
-            top: "0px",
+            top: "15%",
             padding: "10px 0px",
           }}
         >
