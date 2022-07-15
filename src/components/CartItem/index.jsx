@@ -16,10 +16,11 @@ import LocalShippingIcon from "@mui/icons-material/LocalShipping";
 import { PRIMARY1_COLOR, PRIMARY2_COLOR } from "../../theme/colors";
 
 export default function CartItem(props) {
+  let price = props.price;
   return (
     <div style={{ width: "80%", paddingLeft: "5%" }}>
       <Stack direction="row" spacing={1}>
-        <div>
+        {/* <div>
           <Checkbox
             sx={{
               color: PRIMARY2_COLOR,
@@ -27,8 +28,11 @@ export default function CartItem(props) {
                 color: PRIMARY1_COLOR,
               },
             }}
+            onChange={() => {
+              console.log(price);
+            }}
           />
-        </div>
+        </div> */}
 
         <Card sx={{ width: "100%", margin: 2 }}>
           <Stack direction="row" spacing={2}>
@@ -50,13 +54,8 @@ export default function CartItem(props) {
                     <Typography>
                       <b>LKR. {props.price}</b>
                     </Typography>
-                    <Typography>
-                      <Stack direction="row" spacing={2}>
-                        <LocalShippingIcon />
-                        {props.shipping}
-                      </Stack>
-                    </Typography>
-                    <Stack direction="row" spacing={2}>
+
+                    <Stack direction="row" spacing={5}>
                       Quantity:
                       <AddNumberInput initialQuantity={props.initialQuantity} />
                     </Stack>

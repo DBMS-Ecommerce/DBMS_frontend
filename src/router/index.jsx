@@ -22,6 +22,7 @@ import AddItem from "../pages/owner/AddItemPage";
 import ViewReports from "../pages/owner/ViewReportsPage";
 import CheckOrders from "../pages/owner/CheckOrdersPage";
 import ViewOrder from "../pages/owner/ViewOrderPage";
+import CusViewOrder from "../pages/ViewOrder";
 
 export default function Router() {
   return (
@@ -38,6 +39,7 @@ export default function Router() {
           <Route path="/checkout" element={<Checkout />} />
           <Route path="/myOrders" element={<MyOrders />} />
           <Route path="/profile" element={<ProfilePage />} />
+          <Route path="/viewOrder" element={<CusViewOrder />} />
           <Route path="/SearchResult" element={<SearchResultPage />} />
           <Route path="*" element={<NoPage />} />
 

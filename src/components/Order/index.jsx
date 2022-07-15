@@ -1,65 +1,109 @@
-import React from "react";
 import {
+  Button,
   Card,
+  CardActions,
   CardContent,
-  CardMedia,
   Stack,
   Typography,
-  Checkbox,
-  Button,
 } from "@mui/material";
-import {
-  PRIMARY1_COLOR,
-  PRIMARY2_COLOR,
-  SECONDARY_COLOR,
-} from "../../theme/colors";
+import React from "react";
+import { PRIMARY_GRADIENT } from "../../theme/colors";
+import { PRIMARY_FONT } from "../../theme/fonts";
+import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
-export default function Order(props) {
+function OrderCard(props) {
+  const navigate = useNavigate();
+
   return (
-    <div style={{ width: "80%", paddingLeft: "10%" }}>
-      <Card>
-        <Stack direction="row" spacing={2}>
-          <CardMedia>
-            <img
-              src={props.image}
-              alt="green iguana"
-              style={{ height: "10" }}
-            />
-          </CardMedia>
-          <CardContent sx={{ backgroundColor: "#F4F4F4" }}>
-            <Stack direction="row" spacing={1}>
-              <div style={{ alignContent: "left" }}>
-                <Stack direction="column" spacing={1}>
-                  <Typography> Order ID:{props.orderID}</Typography>
-                  <Typography>{props.description} </Typography>
-                  {/* <Typography>
-                    Color: <b>{props.color}</b>
-                  </Typography> */}
-                  <Typography>
-                    <b>LKR. {props.price}</b>
-                  </Typography>
-                  {/* <LocalShippingIcon />
-                  {props.shipping} */}
-                  Accepted
-                  {/* Order Status */}
-                  <Button
-                    variant="contained"
-                    sx={{
-                      background:
-                        "linear-gradient(180deg, #FF0101 0%, #F7941D 100%)",
-                      width: "20%",
-                      left: "70%",
-                      top: "",
-                    }}
-                  >
-                    View
-                  </Button>
-                </Stack>
-              </div>
-            </Stack>
-          </CardContent>
+    <Card
+      sx={{
+        minWidth: 730,
+        paddingLeft: 2,
+        paddingRight: 2,
+        maxHeight: 200,
+      }}
+    >
+      <CardContent>
+        <Stack
+          direction="row"
+          justifyContent="space-between"
+          alignItems="flex-start"
+          spacing={2}
+        >
+          <Typography
+            sx={{ fontSize: 16, fontFamily: PRIMARY_FONT }}
+            color="text.secondary"
+            gutterBottom
+          >
+            Order ID: <b>{props.order_id}</b>
+          </Typography>
+          <Typography
+            sx={{ fontSize: 16, fontFamily: PRIMARY_FONT }}
+            color="text.secondary"
+            gutterBottom
+          >
+            Date: <b>{props.date}</b>
+          </Typography>
         </Stack>
-      </Card>
-    </div>
+
+        <Typography
+          sx={{ fontSize: 16, fontFamily: PRIMARY_FONT }}
+          color="text.secondary"
+          gutterBottom
+        >
+          Order Type: <b>{props.type}</b>
+        </Typography>
+
+        <Typography
+          sx={{ fontSize: 16, fontFamily: PRIMARY_FONT }}
+          color="text.secondary"
+          gutterBottom
+        >
+          Total Amount: <b>{props.total_amount}</b>
+        </Typography>
+
+        <Typography
+          sx={{ fontSize: 16, fontFamily: PRIMARY_FONT }}
+          color="text.secondary"
+          gutterBottom
+        >
+          Status: <b>{props.order_status}</b>
+        </Typography>
+      </CardContent>
+      <CardActions>
+        <Button
+          variant="contained"
+          sx={{
+            width: 100,
+            borderRadius: 45,
+            background: PRIMARY_GRADIENT,
+            fontFamily: PRIMARY_FONT,
+            fontWeight: 600,
+            fontSize: 16.5,
+            // letterSpacing: 1.25,
+            //   position: "absolute",
+            right: -600,
+            top: -50,
+            textDecorationLine: "none",
+          }}
+          onClick={(e) =>
+            navigate("/viewOrder", {
+              state: {
+                order_id: props.order_id,
+                date: props.date,
+                type: props.type,
+                total_amount: props.total_amount,
+                order_status: props.order_status,
+              },
+            })
+          }
+        >
+          View
+        </Button>
+      </CardActions>
+    </Card>
   );
 }
+
+export default OrderCard;
