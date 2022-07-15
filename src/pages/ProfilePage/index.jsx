@@ -12,8 +12,9 @@ import Button from "@mui/material/Button";
 import * as Yup from "yup";
 import { Formik } from "formik";
 import HeightBox from "../../components/HeightBox";
+import Axios from "axios";
 
-// import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 // const CustomButton = styled(Button)({
 //   marginLeft: 300,
@@ -61,171 +62,190 @@ const validationSchema = Yup.object().shape({
     .length(10),
 });
 export default function Profile() {
-  //   const navigate = useNavigate();
+  const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
+  const [pageLoading, setPageLoading] = useState(true);
   const [notInEdit, setNotInEdit] = useState(true);
+  const [details, setDetails] = useState([]);
   const [openSnackBar, setOpenSnackBar] = useState(false);
   const [snackMessage, setSnackMessage] = useState({
     type: "success",
     message: "Successfully changed the details",
   });
-  // console.log("false");
-  // console.log(!inEdit);
+  React.useEffect(() => {
+    Axios.get("http://localhost:5000/user/rggg").then((res) => {
+      console.log(res.data[0]);
+      setDetails(res.data[0]);
+      setPageLoading(false);
+    });
+  }, []);
 
   async function changeDetails(values) {
     setLoading(true);
-    setNotInEdit(true);
-    try {
-      const res = [1, 2];
-      // const res = await api.user.registerUser(values);
-      if (res.length === 2) {
-        const data = res[1];
-        if (data?.statusCode === 201) {
-          // dispatch(signUpRequest(data.data.user));
-          const userObj = JSON.stringify(data.data.user);
-          // localStorage.setItem(ETICKET_USER_DETAILS, userObj);
-          // localStorage.setItem(TOKEN_KEY, `Bearer ${data?.data?.token}`);
-        } else {
-          // Error in creating the user account
+    Axios.post("http://localhost:5000/signup", {
+      // name: values.name,
+      user_id: values.user_id,
+      userName: values.username,
+      phone_num: values.phoneNumber,
+      address: values.location,
+    })
+      .then((res) => {
+        console.log(res.status);
+        setLoading(false);
+        navigate("/");
+      })
+      .catch((err) => {
+        console.log(err.response.data);
+        try {
+          if (err.response.status == 400) {
+            setSnackMessage({ type: "error", message: err.response.data });
+            setOpenSnackBar(true);
+          } else {
+            setSnackMessage({ type: "error", message: "Something went wrong" });
+            setOpenSnackBar(true);
+          }
+          setLoading(false);
+        } catch (error) {
+          setLoading(false);
           setSnackMessage({
             type: "error",
-            message: data.message,
+            message: "Network Error occured",
           });
           setOpenSnackBar(true);
         }
-      }
-      setLoading(false);
-    } catch (error) {
-      // Error in creating the user account
-      setLoading(false);
-      setSnackMessage({
-        type: "error",
-        message: "Network Error occured",
+        setLoading(false);
       });
-      setOpenSnackBar(true);
-    }
   }
 
   return (
     <div>
-      <NavigationBar />
-      <Stack direction="row" style={{ paddingTop: 30, paddingLeft: 100 }}>
-        <img
-          src={PROFILE}
-          alt=""
-          style={{ width: 800, marginRight: 100, position: "fixed" }}
-        />
-        <Card
-          style={{
-            width: 440,
-            textAlign: "center",
-            marginLeft: "60%",
-          }}
-        >
-          <ProfileAvatar name={"Samindra Kumari"} />
-          <Stack direction="column" justifyContent="center">
-            <Formik
-              initialValues={{
-                name: "Sami",
-                userName: "samindrakuamrihr@gmail.com",
-                location: "Matara",
-                phoneNumber: "076 2176546",
-              }}
-              onSubmit={(values) => {
-                // Validation success and needs to call backend
-                const data = {
-                  name: values.name,
-                  username: values.userName,
-                  location: values.location,
-                  phoneNumber: values.phoneNumber,
-                };
-                changeDetails(data);
-              }}
-              validationSchema={validationSchema}
-            >
-              {(formikProps) => {
-                const { errors, handleSubmit, handleChange, touched } =
-                  formikProps;
-                return (
-                  <React.Fragment>
-                    <CustomTextField
-                      id="outlined-read-only-input"
-                      label="Name"
-                      defaultValue="Samindra Kumari"
-                      error={errors.name && touched.name}
-                      helperText={errors.name || ""}
-                      onChange={(event) => handleChange("name")(event)}
-                      InputProps={{
-                        readOnly: notInEdit,
-                      }}
-                    />
-                    <CustomTextField
-                      id="outlined-read-only-input"
-                      label="Username"
-                      defaultValue="samindrakuamrihr@gmail.com"
-                      error={errors.userName && touched.userName}
-                      helperText={errors.userName || ""}
-                      onChange={(event) => handleChange("userName")(event)}
-                      InputProps={{
-                        readOnly: notInEdit,
-                      }}
-                    />
-                    <CustomTextField
-                      id="outlined-read-only-input"
-                      label="Location"
-                      defaultValue="Matara"
-                      error={errors.location && touched.location}
-                      helperText={errors.location || ""}
-                      onChange={(event) => handleChange("location")(event)}
-                      InputProps={{
-                        readOnly: notInEdit,
-                      }}
-                    />
-                    <CustomTextField
-                      id="outlined-read-only-input"
-                      label="Phone Number"
-                      defaultValue="76 2176546"
-                      error={errors.phoneNumber && touched.phoneNumber}
-                      helperText={errors.phoneNumber || ""}
-                      onChange={(event) => handleChange("phoneNumber")(event)}
-                      InputProps={{
-                        readOnly: notInEdit,
-                      }}
-                    />
-                    <CustomButton
-                      type="submit"
-                      color="secondary"
-                      variant="contained"
-                      size="large"
-                      onClick={handleSubmit}
-                      disabled={loading || notInEdit}
-                    >
-                      {loading ? <CircularProgress /> : "Save"}
-                    </CustomButton>
-                  </React.Fragment>
-                );
-                // console.log(inEdit);
-              }}
-            </Formik>
-            <Button
-              type="submit"
-              color="warning"
-              variant="text"
-              size="large"
-              onClick={() => setNotInEdit(false)}
-              disabled={!notInEdit}
+      {!pageLoading ? (
+        <div>
+          <NavigationBar />
+          <Stack direction="row" style={{ paddingTop: 30, paddingLeft: 100 }}>
+            <img
+              src={PROFILE}
+              alt=""
+              style={{ width: 800, marginRight: 100, position: "fixed" }}
+            />
+            <Card
               style={{
-                marginLeft: 4,
-                marginTop: 7,
-                width: 100,
+                width: 440,
+                textAlign: "center",
+                marginLeft: "60%",
               }}
             >
-              Edit
-            </Button>
-            <HeightBox height={5} />
+              <ProfileAvatar name={"Samindra Kumari"} />
+              <Stack direction="column" justifyContent="center">
+                <Formik
+                  initialValues={{
+                    name: "Sami",
+                    userName: details.username,
+                    location: details.address,
+                    phoneNumber: details.phone_number,
+                  }}
+                  onSubmit={(values) => {
+                    // Validation success and needs to call backend
+                    const data = {
+                      name: values.name,
+                      username: values.userName,
+                      location: values.location,
+                      phoneNumber: values.phoneNumber,
+                      user_id: details.user_id,
+                    };
+                    changeDetails(data);
+                  }}
+                  validationSchema={validationSchema}
+                >
+                  {(formikProps) => {
+                    const { errors, handleSubmit, handleChange, touched } =
+                      formikProps;
+                    return (
+                      <React.Fragment>
+                        <CustomTextField
+                          id="outlined-read-only-input"
+                          label="Name"
+                          defaultValue="Samindra Kumari"
+                          error={errors.name && touched.name}
+                          helperText={errors.name || ""}
+                          onChange={(event) => handleChange("name")(event)}
+                          InputProps={{
+                            readOnly: notInEdit,
+                          }}
+                        />
+                        <CustomTextField
+                          id="outlined-read-only-input"
+                          label="Username"
+                          defaultValue={details.username}
+                          error={errors.userName && touched.userName}
+                          helperText={errors.userName || ""}
+                          onChange={(event) => handleChange("userName")(event)}
+                          InputProps={{
+                            readOnly: notInEdit,
+                          }}
+                        />
+                        <CustomTextField
+                          id="outlined-read-only-input"
+                          label="Location"
+                          defaultValue={details.address}
+                          error={errors.location && touched.location}
+                          helperText={errors.location || ""}
+                          onChange={(event) => handleChange("location")(event)}
+                          InputProps={{
+                            readOnly: notInEdit,
+                          }}
+                        />
+                        <CustomTextField
+                          id="outlined-read-only-input"
+                          label="Phone Number"
+                          defaultValue={details.phone_number}
+                          error={errors.phoneNumber && touched.phoneNumber}
+                          helperText={errors.phoneNumber || ""}
+                          onChange={(event) =>
+                            handleChange("phoneNumber")(event)
+                          }
+                          InputProps={{
+                            readOnly: notInEdit,
+                          }}
+                        />
+                        <CustomButton
+                          type="submit"
+                          color="secondary"
+                          variant="contained"
+                          size="large"
+                          onClick={handleSubmit}
+                          disabled={loading || notInEdit}
+                        >
+                          {loading ? <CircularProgress /> : "Save"}
+                        </CustomButton>
+                      </React.Fragment>
+                    );
+                    // console.log(inEdit);
+                  }}
+                </Formik>
+                <Button
+                  type="submit"
+                  color="warning"
+                  variant="text"
+                  size="large"
+                  onClick={() => setNotInEdit(false)}
+                  disabled={!notInEdit}
+                  style={{
+                    marginLeft: 4,
+                    marginTop: 7,
+                    width: 100,
+                  }}
+                >
+                  Edit
+                </Button>
+                <HeightBox height={5} />
+              </Stack>
+            </Card>
           </Stack>
-        </Card>
-      </Stack>
+        </div>
+      ) : (
+        <CircularProgress />
+      )}
     </div>
   );
 }

@@ -15,15 +15,8 @@ import SnackBarComponent from "../../components/SnackBarComponent";
 import WOMAN from "../../assets/woman.svg";
 import Radio from "@mui/material/Radio";
 import Checkbox from "@mui/material/Checkbox";
-import { IconButton, InputAdornment } from "@mui/material";
-// import { IconButton, InputAdornment } from "@material-ui/core";
-// import InputLabel from "@mui/material/core/InputLabel";
-// import InputAdornment from "@mui/material/core/InputAdornment";
-import VisibilityOff from "@mui/icons-material/VisibilityOff";
-import Visibility from "@mui/icons-material/Visibility";
-// import { VisibilityOff, Visibility } from "@material-ui/icons";
-// import Input from "@mui/material/core/Input";
 import { PRIMARY1_COLOR, PRIMARY2_COLOR } from "../../theme/colors";
+import Axios from "axios";
 
 const CustomTextField = styled(TextField)({
   width: 600,
@@ -75,7 +68,6 @@ const validationSchema = Yup.object().shape({
 });
 
 export default function SignIn() {
-  // const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const [loading, setLoading] = useState(false);
@@ -87,41 +79,40 @@ export default function SignIn() {
 
   async function loginUser(values) {
     setLoading(true);
-    try {
-      // const res = await api.user.signinUser(values);
-      // const status = res[0];
-      const status = 400;
-      // const data = res[1];
-      if (200 === 200) {
-        // if (data?.statusCode === 200) {
-        // const userObj = JSON.stringify(data.data.user);
-        // localStorage.setItem(ETICKET_USER_DETAILS, userObj);
-        // localStorage.setItem(TOKEN_KEY, `Bearer ${data?.data?.token}`);
-        // dispatch(loggingRequest(data.data));
-        navigate("/");
-      } else if (status === 400) {
-        setSnackMessage({
-          type: "error",
-          message: "Invalid username or password",
-        });
-        setOpenSnackBar(true);
-      } else {
-        setSnackMessage({
-          type: "error",
-          message: "Internal Server Error",
-        });
-        setOpenSnackBar(true);
-      }
-
-      setLoading(false);
-    } catch (error) {
-      setSnackMessage({
-        type: "error",
-        message: "Network error occured",
+    Axios.post("http://localhost:5000/login", {
+      userName: values.username,
+      password: values.password,
+    })
+      .then((res) => {
+        console.log(res.status);
+        setLoading(false);
+        if (res.data.userType == "customer") {
+          navigate("/");
+        } else {
+          navigate("/");
+        }
+      })
+      .catch((err) => {
+        console.log(err.response.data);
+        try {
+          if (err.response.status == 400) {
+            setSnackMessage({ type: "error", message: err.response.data });
+            setOpenSnackBar(true);
+          } else {
+            setSnackMessage({ type: "error", message: "Something went wrong" });
+            setOpenSnackBar(true);
+          }
+          setLoading(false);
+        } catch (error) {
+          setLoading(false);
+          setSnackMessage({
+            type: "error",
+            message: "Network Error occured",
+          });
+          setOpenSnackBar(true);
+        }
+        setLoading(false);
       });
-      setOpenSnackBar(true);
-      setLoading(false);
-    }
   }
 
   return (

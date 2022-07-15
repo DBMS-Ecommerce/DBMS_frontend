@@ -16,26 +16,31 @@ export default function Home() {
       image: IMAGE,
       description: "NEW Original Lenovo LP40 Camera",
       price: "LKR 1,449.58",
+      sku: "c",
     },
     {
       image: IMAGE,
       description: "NEW fbu Lenovo LP40 Camera",
       price: "LKR 1,449.58",
+      sku: "c",
     },
     {
       image: IMAGE,
       description: "NEW Orvjbiginal Lenovo LP40 Camera",
       price: "LKR 1,449.58",
+      sku: "c",
     },
     {
       image: IMAGE,
       description: "NEW fbiuhm Lenovo LP40 Camera",
       price: "LKR 1,449.58",
+      sku: "c",
     },
     {
       image: IMAGE,
       description: "NEW h h Lenovo LP40 Camera",
       price: "LKR 1,449.58",
+      sku: "c",
     },
   ];
   return (
@@ -67,6 +72,7 @@ export default function Home() {
                         image={item.image}
                         description={item.description}
                         price={item.price}
+                        sku={item.sku}
                       />
                     );
                   })}

@@ -1,157 +1,145 @@
-import React from "react";
+import React, { useState } from "react";
 import Box from "@mui/material/Box";
 import List from "@mui/material/List";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import Divider from "@mui/material/Divider";
-import WomanIcon from "@mui/icons-material/Woman";
-import ManIcon from "@mui/icons-material/Man";
-import PhoneIphoneIcon from "@mui/icons-material/PhoneIphone";
-import ComputerIcon from "@mui/icons-material/Computer";
-import DiamondIcon from "@mui/icons-material/Diamond";
-import CameraAltIcon from "@mui/icons-material/CameraAlt";
-import ShoppingBagIcon from "@mui/icons-material/ShoppingBag";
-import ToysIcon from "@mui/icons-material/Toys";
-import SportsCricketIcon from "@mui/icons-material/SportsCricket";
-import HealingIcon from "@mui/icons-material/Healing";
-import SettingsOutlinedIcon from "@mui/icons-material/SettingsOutlined";
 import Card from "@mui/material/Card";
 import { styled } from "@mui/system";
 import { useNavigate } from "react-router-dom";
+import StarPurple500Icon from "@mui/icons-material/StarPurple500";
+import Axios from "axios";
+import CircularProgress from "@mui/material/CircularProgress";
+import Menu from "@mui/material/Menu";
+import MenuItem from "@mui/material/MenuItem";
+import MenuIcon from "@mui/icons-material/Menu";
 
 const CustomListItemButton = styled(ListItemButton)({
   height: 34,
 });
 export default function CategoryList() {
   const navigate = useNavigate();
+  const [loading, setLoading] = useState(true);
+  const [menuLoading, setMenuLoading] = useState(false);
+  const [categories, setCategories] = useState([]);
+  const [subCategories, setSubCategories] = useState([]);
   const [selectedIndex, setSelectedIndex] = React.useState(1);
+  const [anchorEl, setAnchorEl] = React.useState(null);
+  const open = Boolean(anchorEl);
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
 
   const handleListItemClick = (
     event: React.MouseEvent<HTMLDivElement, MouseEvent>,
-    index: number
+    index: number,
+    id: string
   ) => {
+    setMenuLoading(true);
     setSelectedIndex(index);
-    navigate("/category");
+    Axios.get("http://localhost:5000/category/all_sub/" + id).then((res) => {
+      setSubCategories(res.data);
+      setMenuLoading(false);
+    });
+    handleClick(event);
   };
+
+  React.useEffect(() => {
+    Axios.get("http://localhost:5000/category/all").then((res) => {
+      setCategories(res.data);
+      setLoading(false);
+    });
+  }, []);
+
   return (
-    <Card
-      sx={{
-        width: "100%",
-        maxWidth: 320,
-        bgcolor: "background.paper",
-        fontSize: 11,
-        maxHeight: 450,
-      }}
-    >
-      <p style={{ fontSize: 18, fontWeight: "bold", lineHeight: 0.2 }}>
-        Categories
-      </p>
-      <List
-        component="nav"
-        aria-label="main mailbox folders"
-        style={{ fontSize: 40 }}
-      >
-        <CustomListItemButton
-          selected={selectedIndex === 0}
-          onClick={(event) => handleListItemClick(event, 0)}
+    <div>
+      {!loading ? (
+        <Card
+          sx={{
+            width: "100%",
+            width: 320,
+            bgcolor: "background.paper",
+            fontSize: 11,
+          }}
         >
-          <ListItemIcon>
-            <WomanIcon />
-          </ListItemIcon>
-          <ListItemText primary="Women's Fashion" />
-        </CustomListItemButton>
-        <CustomListItemButton
-          selected={selectedIndex === 1}
-          onClick={(event) => handleListItemClick(event, 1)}
-        >
-          <ListItemIcon>
-            <ManIcon />
-          </ListItemIcon>
-          <ListItemText primary="Men's Fashion" />
-        </CustomListItemButton>
-        <CustomListItemButton
-          selected={selectedIndex === 2}
-          onClick={(event) => handleListItemClick(event, 2)}
-        >
-          <ListItemIcon>
-            <PhoneIphoneIcon />
-          </ListItemIcon>
-          <ListItemText primary="Phones & Telecommunications" />
-        </CustomListItemButton>
-        <CustomListItemButton
-          selected={selectedIndex === 3}
-          onClick={(event) => handleListItemClick(event, 3)}
-        >
-          <ListItemIcon>
-            <ComputerIcon />
-          </ListItemIcon>
-          <ListItemText primary="Computer, Office & Security" />
-        </CustomListItemButton>
-        <CustomListItemButton
-          selected={selectedIndex === 4}
-          onClick={(event) => handleListItemClick(event, 4)}
-        >
-          <ListItemIcon>
-            <DiamondIcon />
-          </ListItemIcon>
-          <ListItemText primary="Jewelry & Watches" />
-        </CustomListItemButton>
-        <CustomListItemButton
-          selected={selectedIndex === 5}
-          onClick={(event) => handleListItemClick(event, 5)}
-        >
-          <ListItemIcon>
-            <CameraAltIcon />
-          </ListItemIcon>
-          <ListItemText primary="Consumer Electronics" />
-        </CustomListItemButton>
-        <CustomListItemButton
-          selected={selectedIndex === 6}
-          onClick={(event) => handleListItemClick(event, 6)}
-        >
-          <ListItemIcon>
-            <ShoppingBagIcon />
-          </ListItemIcon>
-          <ListItemText primary="Bags & Shoes" />
-        </CustomListItemButton>
-        <CustomListItemButton
-          selected={selectedIndex === 7}
-          onClick={(event) => handleListItemClick(event, 7)}
-        >
-          <ListItemIcon>
-            <ToysIcon />
-          </ListItemIcon>
-          <ListItemText primary="Toys,Kids & Babies" />
-        </CustomListItemButton>
-        <CustomListItemButton
-          selected={selectedIndex === 8}
-          onClick={(event) => handleListItemClick(event, 8)}
-        >
-          <ListItemIcon>
-            <SportsCricketIcon />
-          </ListItemIcon>
-          <ListItemText primary="Outdoor Fun & Sports" />
-        </CustomListItemButton>
-        <CustomListItemButton
-          selected={selectedIndex === 9}
-          onClick={(event) => handleListItemClick(event, 9)}
-        >
-          <ListItemIcon>
-            <HealingIcon />
-          </ListItemIcon>
-          <ListItemText primary="Beauty,Health & Hair" />
-        </CustomListItemButton>
-        <CustomListItemButton
-          selected={selectedIndex === 10}
-          onClick={(event) => handleListItemClick(event, 10)}
-        >
-          <ListItemIcon>
-            <SettingsOutlinedIcon />
-          </ListItemIcon>
-          <ListItemText primary="Automobiles & Motorcycles" />
-        </CustomListItemButton>
-      </List>
-    </Card>
+          <p style={{ fontSize: 18, fontWeight: "bold", lineHeight: 0.2 }}>
+            Categories
+          </p>
+          <List
+            component="nav"
+            aria-label="main mailbox folders"
+            style={{ fontSize: 40 }}
+          >
+            {categories.map((category, index) => {
+              return (
+                <div>
+                  <CustomListItemButton
+                    id="demo-positioned-button"
+                    aria-controls={open ? "demo-positioned-menu" : undefined}
+                    aria-haspopup="true"
+                    aria-expanded={open ? "true" : undefined}
+                    // onClick={handleClick}
+                    selected={selectedIndex === index}
+                    onClick={(event) =>
+                      handleListItemClick(event, index, category.category_id)
+                    }
+                  >
+                    <ListItemIcon>
+                      <StarPurple500Icon />
+                    </ListItemIcon>
+                    <ListItemText primary={category.title} />
+                  </CustomListItemButton>
+                  {!menuLoading ? (
+                    <Menu
+                      id="demo-positioned-menu"
+                      aria-labelledby="demo-positioned-button"
+                      anchorEl={anchorEl}
+                      open={open}
+                      onClose={handleClose}
+                      anchorOrigin={{
+                        vertical: "top",
+                        horizontal: "left",
+                      }}
+                      transformOrigin={{
+                        vertical: "top",
+                        horizontal: "left",
+                      }}
+                    >
+                      {subCategories.map((subCategory, index) => {
+                        return (
+                          <MenuItem
+                            onClick={
+                              // handleClose
+                              () => {
+                                navigate("/viewCategory", {
+                                  state: {
+                                    subCategory_id: subCategory.sub_category_id,
+                                  },
+                                });
+                              }
+                              //  &&
+                            }
+                          >
+                            {subCategory.title}
+                          </MenuItem>
+                        );
+                      })}
+                    </Menu>
+                  ) : (
+                    <CircularProgress />
+                  )}
+                </div>
+              );
+            })}
+          </List>
+        </Card>
+      ) : (
+        <CircularProgress />
+      )}
+    </div>
   );
 }
