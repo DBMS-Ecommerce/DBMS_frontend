@@ -13,12 +13,25 @@ import AddNumberInput from "../../components/AddNumberInput";
 // import Button from "@mui/material/Button";
 import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
 import ShoppingBagIcon from "@mui/icons-material/ShoppingBag";
+import { useLocation } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const CutomeImageButton = styled(Button)({
   width: "50% !important",
 });
 
 export default function ViewItemPage() {
+  const { state } = useLocation();
+  const { product_ID } = state;
+
+  const navigate = useNavigate();
+
+  const productDetails = [
+    { product_ID: 1234, title: "IPhone XI", unit_price: 15420 },
+  ];
+
+  let price = productDetails[0].unit_price;
+
   const [value1, setValue1] = React.useState("");
   const [value2, setValue2] = React.useState("");
 
@@ -43,19 +56,14 @@ export default function ViewItemPage() {
             <div>
               <img src={IMAGE}></img>
             </div>
-            <div>
-              <Stack direction="column" spacing={2}>
-                <div>
-                  <Typography>
-                    <b>
-                      Teenager Backpack Leisure Travel Backpack Large Outdoor
-                      Hiking Backpack Youth College Student Bag Rucksack 6354
-                    </b>
-                    <br></br>
-                    Free shipping
-                    <hr></hr>
-                  </Typography>
-                </div>
+            <div style={{ width: "100%" }}>
+              <Stack direction="column" spacing={3}>
+                <Typography>Product ID : {product_ID}</Typography>
+                <Typography>
+                  <b>{productDetails[0].title}</b>
+
+                  <hr></hr>
+                </Typography>
 
                 <div>
                   <Formik
@@ -85,8 +93,8 @@ export default function ViewItemPage() {
                             <RadioGroup
                               aria-labelledby="demo-controlled-radio-buttons-group"
                               name="controlled-radio-buttons-group"
-                              value={value1}
-                              onChange={handleVariant1Change}
+                              defaultValue="black"
+                              // value={value1}
                             >
                               <FormControlLabel
                                 value="black"
@@ -105,8 +113,8 @@ export default function ViewItemPage() {
                             <RadioGroup
                               aria-labelledby="demo-controlled-radio-buttons-group for size"
                               name="controlled-radio-buttons-group for size"
-                              value={value2}
-                              onChange={handleVariant2Change}
+                              defaultValue="small"
+                              // value={value2}
                             >
                               <FormControlLabel
                                 value="small"
@@ -130,7 +138,7 @@ export default function ViewItemPage() {
                     }}
                   </Formik>
                 </div>
-                <div style={{ color: "red" }}>LKR 2500.00</div>
+                <div style={{ color: "red" }}>LKR {price}</div>
                 <div>
                   <AddNumberInput initialQuantity={0} />
                 </div>
@@ -145,6 +153,13 @@ export default function ViewItemPage() {
                         // left: "50%",
                         top: "",
                       }}
+                      onClick={(e) =>
+                        navigate("/checkout", {
+                          state: {
+                            subTotal: price,
+                          },
+                        })
+                      }
                     >
                       <ShoppingBagIcon />
                       Buy Now

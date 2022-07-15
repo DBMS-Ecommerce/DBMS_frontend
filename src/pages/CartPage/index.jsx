@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   Card,
   CardContent,
@@ -22,6 +22,7 @@ import CartImage from "../../assets/cartImage.svg";
 import { styled } from "@mui/material/styles";
 import CartItem from "../../components/CartItem";
 import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const CustomButton = styled(Button)({
   background: 'linear-gradient("180deg", "#FF0101", "0%", "#F7941D", "100%")',
@@ -38,34 +39,44 @@ const cartObjectList = [
   {
     description: "backpack",
     color: "black",
-    price: "459",
-    shipping: "free",
-    initialQuantity: 2,
-  },
-  {
-    description: "backpack",
-    color: "black",
-    price: "459",
-    shipping: "free",
-    initialQuantity: 1,
-  },
-  {
-    description: "backpack",
-    color: "black",
-    price: "459",
+    price: 1500.0,
     shipping: "free",
     initialQuantity: 3,
   },
   {
     description: "backpack",
     color: "black",
-    price: "459",
+    price: 1500.0,
     shipping: "free",
-    initialQuantity: 5,
+    initialQuantity: 1,
+  },
+  {
+    description: "backpack",
+    color: "black",
+    price: 452.0,
+    shipping: "free",
+    initialQuantity: 2,
+  },
+  {
+    description: "backpack",
+    color: "black",
+    price: 5200.0,
+    shipping: "free",
+    initialQuantity: 1,
   },
 ];
 
+let subTotal = 0.0;
+
 export default function Cart() {
+  // const [total, setTotal] = useState(subTotal);
+
+  // const changeSubTotal = (price) => {
+  //   this.setTotal(total + price);
+
+  // };
+  const navigate = useNavigate();
+
   return (
     <Stack direction="column" spacing={5}>
       <h1>Shopping Cart</h1>
@@ -94,6 +105,7 @@ export default function Cart() {
                       price={item.price}
                       shipping={item.shipping}
                       initialQuantity={item.initialQuantity}
+                      // changeTotal={this.changeSubTotal}
                     />
                   </div>
                 );
@@ -111,11 +123,23 @@ export default function Cart() {
                       // color="text.secondary"
                       >
                         <b>Order Summery</b>
+                        {cartObjectList.map((item) => {
+                          let temp = item.price * item.initialQuantity;
+                          subTotal = subTotal + temp;
+
+                          subTotal = subTotal;
+                          return (
+                            <div>
+                              {item.price} * {item.initialQuantity} = {temp}
+                            </div>
+                          );
+                        })}
                       </Typography>
-                      <Typography>Sub total: LKR 1245.00</Typography>
+                      <Typography>Sub total: LKR {subTotal / 2}</Typography>
                       <Typography>Shipping fee: LKR 400.00</Typography>
+
                       <Typography>
-                        <b>Total: LKR 1645.00</b>
+                        <b>Total: LKR {subTotal / 2 + 400.0}</b>
                       </Typography>
                       <CustomButton
                         sx={{
@@ -123,6 +147,13 @@ export default function Cart() {
                             "linear-gradient(180deg, #FF0101 0%, #F7941D 100%)",
                         }}
                         variant="contained"
+                        onClick={(e) =>
+                          navigate("/checkout", {
+                            state: {
+                              subTotal: subTotal / 2,
+                            },
+                          })
+                        }
                       >
                         Proceed To Checkout
                         {/* <Link

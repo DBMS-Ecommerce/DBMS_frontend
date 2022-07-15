@@ -15,6 +15,7 @@ import { PRIMARY_FONT } from "../../theme/fonts";
 import { Formik, Field } from "formik";
 import * as Yup from "yup";
 import { useState } from "react";
+import { useLocation } from "react-router-dom";
 // import { Redirect } from "react-router-dom";
 
 const CustomTextField = styled(TextField)({
@@ -55,10 +56,14 @@ let deliveryCharge = 400.0;
 
 const productData = [1225.0];
 
-let total = productData[0];
+// let total = subTotal;
 
 export default function Checkout() {
-  const [count, setCount] = useState(total + 400);
+  const { state } = useLocation();
+
+  const { subTotal } = state;
+  const [count, setCount] = useState(subTotal + 400);
+
   return (
     <div>
       <div style={{ textAlign: "center" }}>
@@ -75,7 +80,7 @@ export default function Checkout() {
           email: "",
           orderNote: "",
           orderType: "",
-          picked: "",
+
           totalPrice: { count },
         }}
         validate={(values) => {
@@ -115,6 +120,15 @@ export default function Checkout() {
           }, 400);
         }}
         validationSchema={validationSchema}
+        // onRadioChange={(values, { setCount }) => {
+        //   setCount(count + deliveryCharge);
+        //   // values.orderType = "deliveryOrder";
+
+        // }}
+        // onRadio2Change={(values, { setCount }) => {
+        //   setCount(count - deliveryCharge);
+        //   values.orderType = "pickUpOrder";
+        // }}
       >
         {({
           values,
@@ -141,7 +155,7 @@ export default function Checkout() {
                   <div style={{ align: "center" }}>
                     <img src={GIRLIMAGE} alt="" />
                   </div>
-                  <Typography>Sub Total: {productData[0]}</Typography>
+                  <Typography>Sub Total: {subTotal}</Typography>
                   {/* <Typography>Description blah blah blah blah</Typography>
                   <Typography>price: LKR 4990/=</Typography>
                   <Typography>Sub total: LKR 4990/=</Typography> */}
@@ -166,7 +180,10 @@ export default function Checkout() {
                     <div>Order Type: {values.orderType}</div>
                   </div> */}
                   <FormControl>
-                    <FormLabel id="demo-radio-buttons-group-label">
+                    <FormLabel
+                      id="demo-radio-buttons-group-label"
+                      sx={{ color: "black" }}
+                    >
                       Order Type
                     </FormLabel>
                     <RadioGroup
@@ -177,21 +194,43 @@ export default function Checkout() {
                       <FormControlLabel
                         name="orderType"
                         value="deliveryOrder"
-                        control={<Radio />}
+                        control={
+                          <Radio
+                            sx={{
+                              color: PRIMARY1_COLOR,
+                              "&.Mui-checked": {
+                                color: PRIMARY2_COLOR,
+                              },
+                            }}
+                          />
+                        }
                         label="Delivery Order: 400 LKR"
-                        onChange={() => setCount(count + deliveryCharge)}
+                        onChange={(e) => setCount(count + deliveryCharge)}
+                        onClick={handleChange}
+                        sx={{ paddingLeft: "15%" }}
                       />
                       <FormControlLabel
                         name="orderType"
                         value="pickUpOrder"
-                        control={<Radio />}
+                        control={
+                          <Radio
+                            sx={{
+                              color: PRIMARY1_COLOR,
+                              "&.Mui-checked": {
+                                color: PRIMARY2_COLOR,
+                              },
+                            }}
+                          />
+                        }
                         label="PickUp Order"
-                        onChange={() => setCount(count - deliveryCharge)}
+                        onChange={(e) => setCount(count - deliveryCharge)}
+                        onClick={handleChange}
+                        sx={{ paddingLeft: "15%" }}
                       />
                     </RadioGroup>
                   </FormControl>
                   <Typography>Total: {count}</Typography>
-
+                  {/* <div>Order Type: {values.orderType}</div> */}
                   <div style={{ height: "100" }}></div>
                 </Stack>
               </Paper>
@@ -340,6 +379,7 @@ export default function Checkout() {
                         {" "}
                         Place Order
                       </CustomButton>
+                      <div style={{ height: "100" }}></div>
                     </Stack>
                   </div>
                 </Stack>
