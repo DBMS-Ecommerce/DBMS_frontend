@@ -16,8 +16,7 @@ import WOMAN from "../../assets/woman.svg";
 import Radio from "@mui/material/Radio";
 import Checkbox from "@mui/material/Checkbox";
 import { PRIMARY1_COLOR, PRIMARY2_COLOR } from "../../theme/colors";
-
-// import Input from "@mui/material/core/Input";
+import Axios from "axios";
 
 const CustomTextField = styled(TextField)({
   width: 600,
@@ -93,36 +92,40 @@ export default function SignIn() {
 
   async function registerUser(values) {
     setLoading(true);
-    try {
-      const res = [1, 2];
-      // const res = await api.user.registerUser(values);
-      if (res.length === 2) {
-        const data = res[1];
-        if (data?.statusCode === 201) {
-          // dispatch(signUpRequest(data.data.user));
-          const userObj = JSON.stringify(data.data.user);
-          // localStorage.setItem(ETICKET_USER_DETAILS, userObj);
-          // localStorage.setItem(TOKEN_KEY, `Bearer ${data?.data?.token}`);
-          navigate("/");
-        } else {
-          // Error in creating the user account
+    Axios.post("http://localhost:5000/signup", {
+      name: values.name,
+      userName: values.username,
+      password: values.password,
+      userType: values.userType,
+      phone_num: values.phoneNumber,
+      address: values.location,
+    })
+      .then((res) => {
+        console.log(res.status);
+        setLoading(false);
+        navigate("/");
+      })
+      .catch((err) => {
+        console.log(err.response.data);
+        try {
+          if (err.response.status == 400) {
+            setSnackMessage({ type: "error", message: err.response.data });
+            setOpenSnackBar(true);
+          } else {
+            setSnackMessage({ type: "error", message: "Something went wrong" });
+            setOpenSnackBar(true);
+          }
+          setLoading(false);
+        } catch (error) {
+          setLoading(false);
           setSnackMessage({
             type: "error",
-            message: data.message,
+            message: "Network Error occured",
           });
           setOpenSnackBar(true);
         }
-      }
-      setLoading(false);
-    } catch (error) {
-      // Error in creating the user account
-      setLoading(false);
-      setSnackMessage({
-        type: "error",
-        message: "Network Error occured",
+        setLoading(false);
       });
-      setOpenSnackBar(true);
-    }
   }
 
   return (
