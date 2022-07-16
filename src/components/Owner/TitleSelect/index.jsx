@@ -39,9 +39,9 @@ const BootstrapInput = styled(InputBase)(({ theme }) => ({
 function TitleSelect(props) {
   const menu = [];
 
-  props.list.forEach((element) => {
+  props.list.forEach((element, index) => {
     menu.push(
-      <MenuItem value={element} key={element}>
+      <MenuItem value={index} key={index}>
         {element}
       </MenuItem>
     );

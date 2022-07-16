@@ -30,6 +30,7 @@ import { PRIMARY_GRADIENT } from "../../../theme/colors";
 import { PRIMARY_FONT } from "../../../theme/fonts";
 import SearchIcon from "@mui/icons-material/Search";
 import ItemTable from "../../../components/Owner/ItemTable";
+import SnackBarComponent from "../../../components/SnackBarComponent";
 
 const columns = [
   { id: "sku", label: "SKU", minWidth: 170 },
@@ -56,28 +57,47 @@ const columns = [
 ];
 
 function AddItem() {
-  const categoryList = ["Category 1", "Category 2", "Category 3"];
-  const subCategoryList = [
-    "Sub Category 1",
-    "Sub Category 2",
-    "Sub Category 3",
-  ];
-  const productList = ["Product 1", "Product 2", "Product 3"];
+  const [categoryList, setCategoryList] = React.useState([]);
+  const [subCategoryList, setSubCategoryList] = React.useState([]);
+  const [productList, setProductList] = React.useState([]);
 
   const [load, setLoad] = React.useState(false);
 
-  // const handleLoad = (categoryTitle, subCategoryTitle, productTitle) => {
-  //   if ((categoryTitle !== "", subCategoryTitle !== "", productTitle !== "")) {
-  //     setLoad(true);
-  //   }
-  // };
+  React.useEffect(() => {
+    getAllCategories();
+  }, []);
+
+  async function getAllCategories() {
+    Axios.get("http://localhost:5000/view_Add_variant").then((value) => {
+      setCategoryList(value.data.categories);
+    });
+  }
+
+  async function getAllSubCategories(categoryIndex) {
+    Axios.get(
+      "http://localhost:5000/sub_categoryShowWithId/" +
+        categoryList[categoryIndex].category_id
+    ).then((value) => {
+      setSubCategoryList(value.data.sub_categories);
+      console.log(value.data.sub_categories);
+    });
+  }
+
+  async function getAllProducts(subCategoryIndex) {
+    Axios.get(
+      "http://localhost:5000/products/" + subCategoryList[subCategoryIndex].id
+    ).then((value) => {
+      setProductList(value.data.products);
+      console.log(value.data.products);
+    });
+  }
 
   return (
     <Formik
       initialValues={{
-        categoryTitle: "",
-        subCategoryTitle: "",
-        productTitle: "",
+        categoryIndex: "",
+        subCategoryIndex: "",
+        productIndex: "",
 
         selectedValue: "",
         itemLst: [],
@@ -144,11 +164,14 @@ function AddItem() {
                       Category Title
                     </InputLabel>
                     <TitleSelect
-                      name="categoryTitle"
-                      value={values.categoryTitle}
+                      name="categoryIndex"
+                      value={values.categoryIndex}
                       label="Category Title"
-                      onChange={handleChange}
-                      list={categoryList}
+                      onChange={(e) => {
+                        handleChange(e);
+                        getAllSubCategories(e.target.value);
+                      }}
+                      list={categoryList.map((category) => category.title)}
                     />
                   </FormControl>
 
@@ -157,11 +180,16 @@ function AddItem() {
                       Sub Category Title
                     </InputLabel>
                     <TitleSelect
-                      name="subCategoryTitle"
-                      value={values.subCategoryTitle}
+                      name="subCategoryIndex"
+                      value={values.subCategoryIndex}
                       label="Sub Category Title"
-                      onChange={handleChange}
-                      list={subCategoryList}
+                      onChange={(e) => {
+                        handleChange(e);
+                        getAllProducts(e.target.value);
+                      }}
+                      list={subCategoryList.map(
+                        (subCategory) => subCategory.title
+                      )}
                     />
                   </FormControl>
 
@@ -170,63 +198,18 @@ function AddItem() {
                       Product Title
                     </InputLabel>
                     <TitleSelect
-                      name="productTitle"
-                      value={values.productTitle}
+                      name="productIndex"
+                      value={values.productIndex}
                       label="Product Title"
-                      onChange={handleChange}
-                      list={productList}
+                      onChange={(e) => {
+                        handleChange(e);
+                      }}
+                      list={productList.map((product) => product.title)}
                     />
                   </FormControl>
                 </FormGroup>
               </Box>
-              {/* <Button
-                variant="contained"
-                sx={{
-                  width: 150,
-                  borderRadius: 45,
-                  background: PRIMARY_GRADIENT,
-                  fontFamily: PRIMARY_FONT,
-                  fontWeight: 600,
-                  fontSize: 16.5,
-                  letterSpacing: 1.25,
-                  position: "relative",
-                  left: "75%",
-                  top: -40,
-                }}
-                onClick={(e) => {
-                  setFieldValue("itemLst", [
-                    {
-                      sku: "AAB12345",
-                      name: "I Phone X 32 GB Red",
-                      product_id: "IPX",
-                      unit_price: "125000",
-                      quantity: 0,
-                      image: null,
-                      is_default: "0",
-                    },
-                    {
-                      sku: "KLJ12345",
-                      name: "I Phone X 32 GB Black",
-                      product_id: "IPX",
-                      unit_price: "130000",
-                      quantity: 0,
-                      image: null,
-                      is_default: "0",
-                    },
-                    {
-                      sku: "QWD12345",
-                      name: "I Phone X 32 GB White",
-                      product_id: "IPX",
-                      unit_price: "145000",
-                      quantity: 0,
-                      image: null,
-                      is_default: "0",
-                    },
-                  ]);
-                }}
-              >
-                Load Items
-              </Button> */}
+
               {values.itemLst.length != 0 ? (
                 <div>
                   <TitleText />
