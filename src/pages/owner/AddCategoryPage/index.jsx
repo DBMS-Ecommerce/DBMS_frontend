@@ -7,6 +7,7 @@ import AddButton from "../../../components/Owner/AddButton";
 import { Formik } from "formik";
 import Axios from "axios";
 import SnackBarComponent from "../../../components/SnackBarComponent";
+import NavigationBar from "../../../components/Owner/NavBar";
 
 function AddCategory() {
   const [openSnackBar, setOpenSnackBar] = React.useState(false);
@@ -47,6 +48,7 @@ function AddCategory() {
 
   return (
     <div>
+      <NavigationBar />
       <SnackBarComponent
         open={openSnackBar}
         setOpen={setOpenSnackBar}
