@@ -32,36 +32,19 @@ import SearchIcon from "@mui/icons-material/Search";
 import ItemTable from "../../../components/Owner/ItemTable";
 import SnackBarComponent from "../../../components/SnackBarComponent";
 
-const columns = [
-  { id: "sku", label: "SKU", minWidth: 170 },
-  { id: "name", label: "Name", minWidth: 200 },
-  {
-    id: "unitPrice",
-    label: "Unit Price",
-    minWidth: 170,
-    align: "right",
-    format: (value) => value.toFixed(2),
-  },
-  {
-    id: "quantity",
-    label: "Quantity",
-    minWidth: 170,
-    align: "right",
-  },
-  {
-    id: "image",
-    label: "Image",
-    minWidth: 170,
-    align: "right",
-  },
-];
-
 function AddItem() {
   const [categoryList, setCategoryList] = React.useState([]);
   const [subCategoryList, setSubCategoryList] = React.useState([]);
   const [productList, setProductList] = React.useState([]);
+  const [itemList, setItemList] = React.useState([]);
 
   const [load, setLoad] = React.useState(false);
+
+  const [openSnackBar, setOpenSnackBar] = React.useState(false);
+  const [snackMessage, setSnackMessage] = React.useState({
+    type: "success",
+    message: "Successfully Added",
+  });
 
   React.useEffect(() => {
     getAllCategories();
@@ -92,196 +75,256 @@ function AddItem() {
     });
   }
 
-  return (
-    <Formik
-      initialValues={{
-        categoryIndex: "",
-        subCategoryIndex: "",
-        productIndex: "",
+  async function getAllItemsByProduct(productIndex) {
+    console.log(productList[productIndex]);
+    Axios.get(
+      "http://localhost:5000/item_showing/" + productList[productIndex].id
+    ).then((value) => {
+      setItemList(value.data.items);
+      console.log(value.data.items);
+    });
+  }
 
-        selectedValue: "",
-        itemLst: [],
-      }}
-      validate={(values) => {
-        const errors = {};
-        // if (!values.categoryTitle) {
-        //   errors.categoryTitle = "Required";
-        // }
-        // if (!values.subCategoryTitle) {
-        //   errors.subCategoryTitle = "Required";
-        // }
-        // if (!values.productTitle) {
-        //   errors.productTitle = "Required";
-        // }
-        return errors;
-      }}
-      onSubmit={(values, { setSubmitting }) => {
-        setTimeout(() => {
-          // alert(JSON.stringify(values, null, 2));
+  async function handleItems(values) {
+    Axios.post("http://localhost:5000/ModifyItem", {
+      updated_item_array: values.itemLst,
+    })
+      .then((res) => {
+        console.log(res.status);
+        if (res.status == 200) {
+          setOpenSnackBar(true);
+        }
+      })
+      .catch((err) => {
+        console.log(err.response.data);
+        try {
+          if (err.response.status == 400) {
+            setSnackMessage({ type: "error", message: err.response.data });
+            setOpenSnackBar(true);
+          } else {
+            setSnackMessage({ type: "error", message: "Something went wrong" });
+            setOpenSnackBar(true);
+          }
+        } catch (error) {
+          setSnackMessage({
+            type: "error",
+            message: "Network Error occured",
+          });
+          setOpenSnackBar(true);
+        }
+      });
+  }
+
+  return (
+    <div>
+      <SnackBarComponent
+        open={openSnackBar}
+        setOpen={setOpenSnackBar}
+        type={snackMessage.type}
+        message={snackMessage.message}
+      />
+      <Formik
+        initialValues={{
+          categoryIndex: "",
+          subCategoryIndex: "",
+          productIndex: "",
+
+          selectedValue: "",
+          itemLst: [],
+        }}
+        // validate={(values) => {
+        //   const errors = {};
+        //   // if (!values.categoryTitle) {
+        //   //   errors.categoryTitle = "Required";
+        //   // }
+        //   // if (!values.subCategoryTitle) {
+        //   //   errors.subCategoryTitle = "Required";
+        //   // }
+        //   // if (!values.productTitle) {
+        //   //   errors.productTitle = "Required";
+        //   // }
+        //   return errors;
+        // }}
+        onSubmit={(values, { setSubmitting, resetForm }) => {
+          console.log("submit");
+          const data = {
+            itemLst: values.itemLst,
+          };
+          console.log(data);
+          handleItems(data);
+
           setSubmitting(false);
-          console.log(values);
-        }, 400);
-      }}
-    >
-      {({
-        values,
-        errors,
-        touched,
-        handleChange,
-        setValues,
-        setFieldValue,
-        handleBlur,
-        handleSubmit,
-        isSubmitting,
-        /* and other goodies */
-      }) => (
-        <form onSubmit={handleSubmit}>
-          <Paper sx={{ width: "100%", overflow: "hidden", paddingBottom: 5 }}>
-            <Box
-              sx={{
-                display: "flex",
-                flexDirection: "column",
-                justifyContent: "center",
-                width: "100%",
-                // height: "100%",
-              }}
-            >
+          if (snackMessage.type == "success") {
+            resetForm();
+          }
+        }}
+        validator={() => ({})}
+      >
+        {({
+          values,
+          errors,
+          touched,
+          handleChange,
+          setValues,
+          setFieldValue,
+          handleBlur,
+          handleSubmit,
+          isSubmitting,
+          /* and other goodies */
+        }) => (
+          <form onSubmit={handleSubmit}>
+            <Paper sx={{ width: "100%", overflow: "hidden", paddingBottom: 5 }}>
               <Box
                 sx={{
                   display: "flex",
-                  flexDirection: "row",
+                  flexDirection: "column",
                   justifyContent: "center",
                   width: "100%",
-                  // height: "90%",
-                  // position: "absolute",
-                  marginTop: 4,
-                  marginBottom: 3,
+                  // height: "100%",
                 }}
               >
-                <FormGroup>
-                  <FormControl fullWidth>
-                    <InputLabel id="demo-simple-select-label">
-                      Category Title
-                    </InputLabel>
-                    <TitleSelect
-                      name="categoryIndex"
-                      value={values.categoryIndex}
-                      label="Category Title"
-                      onChange={(e) => {
-                        handleChange(e);
-                        getAllSubCategories(e.target.value);
-                      }}
-                      list={categoryList.map((category) => category.title)}
-                    />
-                  </FormControl>
-
-                  <FormControl fullWidth>
-                    <InputLabel id="demo-simple-select-label">
-                      Sub Category Title
-                    </InputLabel>
-                    <TitleSelect
-                      name="subCategoryIndex"
-                      value={values.subCategoryIndex}
-                      label="Sub Category Title"
-                      onChange={(e) => {
-                        handleChange(e);
-                        getAllProducts(e.target.value);
-                      }}
-                      list={subCategoryList.map(
-                        (subCategory) => subCategory.title
-                      )}
-                    />
-                  </FormControl>
-
-                  <FormControl fullWidth>
-                    <InputLabel id="demo-simple-select-label">
-                      Product Title
-                    </InputLabel>
-                    <TitleSelect
-                      name="productIndex"
-                      value={values.productIndex}
-                      label="Product Title"
-                      onChange={(e) => {
-                        handleChange(e);
-                      }}
-                      list={productList.map((product) => product.title)}
-                    />
-                  </FormControl>
-                </FormGroup>
-              </Box>
-
-              {values.itemLst.length != 0 ? (
-                <div>
-                  <TitleText />
-                  <Button>
-                    <SearchIcon />
-                  </Button>
-                  <ItemTable
-                    itemLst={values.itemLst}
-                    selectedValue={values.selectedValue}
-                    handleChange={handleChange}
-                    setFieldValue={setFieldValue}
-                  />
-                </div>
-              ) : (
-                <Button
-                  variant="contained"
+                <Box
                   sx={{
-                    width: 150,
-                    borderRadius: 45,
-                    background: PRIMARY_GRADIENT,
-                    fontFamily: PRIMARY_FONT,
-                    fontWeight: 600,
-                    fontSize: 16.5,
-                    letterSpacing: 1.25,
-                    position: "relative",
-                    left: "75%",
-                    top: -40,
-                  }}
-                  onClick={(e) => {
-                    setFieldValue("itemLst", [
-                      {
-                        sku: "AAB12345",
-                        name: "I Phone X 32 GB Red",
-                        product_id: "IPX",
-                        unit_price: "125000",
-                        quantity: 0,
-                        image: null,
-                        is_default: "0",
-                      },
-                      {
-                        sku: "KLJ12345",
-                        name: "I Phone X 32 GB Black",
-                        product_id: "IPX",
-                        unit_price: "130000",
-                        quantity: 0,
-                        image: null,
-                        is_default: "0",
-                      },
-                      {
-                        sku: "QWD12345",
-                        name: "I Phone X 32 GB White",
-                        product_id: "IPX",
-                        unit_price: "145000",
-                        quantity: 0,
-                        image: null,
-                        is_default: "0",
-                      },
-                    ]);
+                    display: "flex",
+                    flexDirection: "row",
+                    justifyContent: "center",
+                    width: "100%",
+                    // height: "90%",
+                    // position: "absolute",
+                    marginTop: 4,
+                    marginBottom: 3,
                   }}
                 >
-                  Load Items
-                </Button>
-              )}
-            </Box>
-            <br />
-            {values.itemLst.length != 0 ? (
-              <AddButton disabled={isSubmitting} />
-            ) : null}
-          </Paper>
-        </form>
-      )}
-    </Formik>
+                  <FormGroup>
+                    <FormControl fullWidth>
+                      <InputLabel id="demo-simple-select-label">
+                        Category Title
+                      </InputLabel>
+                      <TitleSelect
+                        name="categoryIndex"
+                        value={values.categoryIndex}
+                        label="Category Title"
+                        onChange={(e) => {
+                          handleChange(e);
+                          getAllSubCategories(e.target.value);
+                        }}
+                        list={categoryList.map((category) => category.title)}
+                      />
+                    </FormControl>
+
+                    <FormControl fullWidth>
+                      <InputLabel id="demo-simple-select-label">
+                        Sub Category Title
+                      </InputLabel>
+                      <TitleSelect
+                        name="subCategoryIndex"
+                        value={values.subCategoryIndex}
+                        label="Sub Category Title"
+                        onChange={(e) => {
+                          handleChange(e);
+                          getAllProducts(e.target.value);
+                        }}
+                        list={subCategoryList.map(
+                          (subCategory) => subCategory.title
+                        )}
+                      />
+                    </FormControl>
+
+                    <FormControl fullWidth>
+                      <InputLabel id="demo-simple-select-label">
+                        Product Title
+                      </InputLabel>
+                      <TitleSelect
+                        name="productIndex"
+                        value={values.productIndex}
+                        label="Product Title"
+                        onChange={(e) => {
+                          handleChange(e);
+                          getAllItemsByProduct(e.target.value);
+                        }}
+                        list={productList.map((product) => product.title)}
+                      />
+                    </FormControl>
+                  </FormGroup>
+                </Box>
+
+                {values.itemLst.length != 0 ? (
+                  <div>
+                    {/* <TitleText />
+                  <Button>
+                    <SearchIcon />
+                  </Button> */}
+                    <ItemTable
+                      itemLst={values.itemLst}
+                      selectedValue={values.selectedValue}
+                      handleChange={handleChange}
+                      setFieldValue={setFieldValue}
+                    />
+                  </div>
+                ) : (
+                  <Button
+                    variant="contained"
+                    sx={{
+                      width: 150,
+                      borderRadius: 45,
+                      background: PRIMARY_GRADIENT,
+                      fontFamily: PRIMARY_FONT,
+                      fontWeight: 600,
+                      fontSize: 16.5,
+                      letterSpacing: 1.25,
+                      position: "relative",
+                      left: "75%",
+                      top: -40,
+                    }}
+                    onClick={(e) => {
+                      setFieldValue(
+                        "itemLst",
+                        itemList
+                        //  [
+                        //   {
+                        //     sku: "AAB12345",
+                        //     name: "I Phone X 32 GB Red",
+                        //     product_id: "IPX",
+                        //     unit_price: "125000",
+                        //     quantity: 0,
+                        //     image: null,
+                        //     is_default: "0",
+                        //   },
+                        //   {
+                        //     sku: "KLJ12345",
+                        //     name: "I Phone X 32 GB Black",
+                        //     product_id: "IPX",
+                        //     unit_price: "130000",
+                        //     quantity: 0,
+                        //     image: null,
+                        //     is_default: "0",
+                        //   },
+                        //   {
+                        //     sku: "QWD12345",
+                        //     name: "I Phone X 32 GB White",
+                        //     product_id: "IPX",
+                        //     unit_price: "145000",
+                        //     quantity: 0,
+                        //     image: null,
+                        //     is_default: "0",
+                        //   },
+                        // ]
+                      );
+                    }}
+                  >
+                    Load Items
+                  </Button>
+                )}
+              </Box>
+              <br />
+              {values.itemLst.length != 0 ? (
+                <AddButton disabled={isSubmitting} />
+              ) : null}
+            </Paper>
+          </form>
+        )}
+      </Formik>
+    </div>
   );
 }
 

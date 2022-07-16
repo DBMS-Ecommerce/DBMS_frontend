@@ -6,6 +6,7 @@ import {
   CardContent,
   Divider,
   Paper,
+  Stack,
   Typography,
 } from "@mui/material";
 import React from "react";
@@ -40,6 +41,7 @@ function ViewReports() {
         alignItems: "center",
       }}
     >
+      <Stack></Stack>
       <Paper
         elevation={5}
         sx={{
@@ -54,7 +56,7 @@ function ViewReports() {
       >
         <CategoryIcon />
       </Paper>
-      {/* <Card sx={{ width: 350, paddingLeft: 3, paddingTop: 2 }}>
+      <Card sx={{ width: 350, paddingLeft: 3, paddingTop: 2 }}>
         <CardContent>
           <Typography
             sx={{ fontSize: 16, fontFamily: PRIMARY_FONT }}
@@ -72,8 +74,8 @@ function ViewReports() {
             No.of Orders: <b>45</b>
           </Typography>
         </CardContent>
-      </Card> */}
-      {/* <Paper
+      </Card>
+      <Paper
         elevation={5}
         sx={{
           width: 300,
@@ -82,20 +84,20 @@ function ViewReports() {
           // top: 30,
           // left: -20,
         }}
-      > */}
-      <Pie
-        options={{
-          // responsive: true,
-          // maintainAspectRatio: true,
-          width: "400",
-          height: "400",
-        }}
-        data={{
-          labels: labels,
-          datasets: datasets,
-        }}
-      />
-      {/* </Paper> */}
+      >
+        <Pie
+          options={{
+            // responsive: true,
+            // maintainAspectRatio: true,
+            width: "400",
+            height: "400",
+          }}
+          data={{
+            labels: labels,
+            datasets: datasets,
+          }}
+        />
+      </Paper>
     </div>
   );
 }

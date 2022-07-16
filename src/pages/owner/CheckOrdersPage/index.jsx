@@ -14,42 +14,21 @@ import {
 import React from "react";
 import OrderCard from "../../../components/Owner/OrderCard";
 import bg_order_owner from "../../../assets/bg_order_owner.svg";
+import Axios from "axios";
 
 function CheckOrders() {
-  const orderLst = [
-    {
-      order_id: "12345678-345678234581-1234-1234-1334",
-      customer_id: "12345678-345678234581-1234-1234-9999",
-      type: "DELIVERY",
-      date: "2022.02.03",
-      total_amount: 34000.0,
-      order_status: "PENDING",
-    },
-    {
-      order_id: "99202334-345678234581-1234-1234-1334",
-      customer_id: "12345678-345678234581-1234-1234-9999",
-      type: "PICKUP",
-      date: "2022.02.03",
-      total_amount: 34000.0,
-      order_status: "CONFIRMED",
-    },
-    {
-      order_id: "87654321-345678234581-1234-1234-1334",
-      customer_id: "12345678-345678234581-1234-1234-9999",
-      type: "DELIVERY",
-      date: "2022.02.03",
-      total_amount: 34000.0,
-      order_status: "PREPARING",
-    },
-    {
-      order_id: "87654321-345678234581-1234-1234-1334",
-      customer_id: "12345678-345678234581-1234-1234-9999",
-      type: "DELIVERY",
-      date: "2022.02.03",
-      total_amount: 34000.0,
-      order_status: "PREPARING",
-    },
-  ];
+  const [orderLst, setOrderLst] = React.useState([]);
+
+  React.useEffect(() => {
+    getAllOrders();
+  }, []);
+
+  async function getAllOrders() {
+    Axios.get("http://localhost:5000/viewOrders").then((value) => {
+      setOrderLst(value.data.orders);
+      console.log(orderLst);
+    });
+  }
 
   return (
     <Box
@@ -63,18 +42,6 @@ function CheckOrders() {
         // height: "100%",
       }}
     >
-      {/* <Box
-        sx={{
-          display: "flex",
-          flexDirection: "row",
-          justifyContent: "center",
-          width: "100%",
-          //   height: "100%",
-          //   position: "absolute",
-          //   top: "15%",
-          marginTop: 3,
-        }}
-      > */}
       <Stack
         direction="column"
         justifyContent="flex-start"
@@ -87,7 +54,7 @@ function CheckOrders() {
                 <OrderCard
                   key={index}
                   order_id={order.order_id}
-                  date={order.date}
+                  date={order.date.substring(0, 10)}
                   customer_id={order.customer_id}
                   type={order.type}
                   total_amount={order.total_amount}

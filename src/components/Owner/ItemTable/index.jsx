@@ -35,7 +35,7 @@ function ItemTable(props) {
                     // defalutName={`itemLst[${index}].is_default`}
                     // onChangeDefault={setFieldValue}
                     sku={item.sku}
-                    name={item.name}
+                    name={item.title}
                     price={item.unit_price}
                     quantityName={`itemLst[${index}].quantity`}
                     quantity={props.itemLst[index].quantity}
